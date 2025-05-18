@@ -1,0 +1,24 @@
+<div class="centrar">
+  <h2>Reseñas</h2>
+</div>
+
+<p *ngIf="mensaje">{{ mensaje }}</p>
+
+<form (submit)="enviarResena(); $event.preventDefault()">
+
+  <label>Libro:</label>
+  <select [(ngModel)]="libroId" name="libroId" required>
+    <option [value]="0" disabled>Seleccione un libro</option>
+    <option *ngFor="let libro of libros" [value]="libro.idLibro">
+      {{ libro.titulo }}
+    </option>
+  </select>
+
+  <label>Comentario:</label>
+  <textarea [(ngModel)]="comentario" name="comentario" required></textarea>
+
+  <label>Puntuación:</label>
+  <input type="number" [(ngModel)]="puntuacion" name="puntuacion" min="1" max="5" required />
+
+  <button type="submit">Enviar reseña</button>
+</form>

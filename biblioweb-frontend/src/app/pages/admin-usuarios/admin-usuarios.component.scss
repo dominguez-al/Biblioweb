@@ -1,0 +1,231 @@
+:host {
+  display: block;
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Título */
+.titulo-seccion {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(235, 235, 235, 0.85);
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin: 0 auto 2rem auto;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.titulo-seccion lucide-icon {
+  width: 2.3em;
+  height: 1.6rem;
+  margin-top: 5px;
+}
+
+.titulo-seccion h2 {
+  margin: 0;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* Subtítulo */
+.subtitulo {
+  background-color: rgba(235, 235, 235, 0.85);
+  padding: 0.75rem 1.2rem;
+  border: 2px solid #007bff;
+  margin: 2rem auto 1.5rem auto;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+  border-radius: 8px;
+  max-width: 200px;
+  text-align: center;
+}
+
+/* Botón Crear Usuario */
+.center-button {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+button lucide-icon {
+  margin-right: 8px;
+}
+
+
+.crear-usuario-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.crear-usuario-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Formulario */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.form-group {
+  width: 100%;
+  max-width: 320px;
+}
+form input,
+form select {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* Botones del formulario */
+.botones-formulario {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+.botones-formulario button {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.botones-formulario button[type="submit"] {
+  background-color: #28a745;
+}
+.botones-formulario button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+.botones-formulario button[type="button"] {
+  background-color: #6c757d;
+}
+.botones-formulario button[type="button"]:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+  margin: 0 auto 2rem auto;
+}
+th {
+  background-color: #007bffa5;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+td {
+  padding: 14px;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+}
+tr:nth-child(even) td {
+  background-color: #fafafa;
+}
+tr:hover td {
+  background-color: #e8f0ff;
+}
+
+/* Botones de acción */
+.editar-btn,
+.eliminar-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.editar-btn {
+  background-color: #ffc107;
+  color: #333;
+  margin-right: 8px;
+}
+.editar-btn:hover {
+  background-color: #e0a800;
+}
+.eliminar-btn {
+  background-color: #dc3545;
+  color: white;
+}
+.eliminar-btn:hover {
+  background-color: #c82333;
+}
+
+/* Íconos Lucide */
+lucide-icon {
+  vertical-align: middle;
+  width: 1.2em;
+  height: 1.2em;
+
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .botones-formulario {
+    flex-direction: column;
+    align-items: center;
+  }
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  thead {
+    display: none;
+  }
+  tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #f1f1f1;
+  }
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border: none;
+  }
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #333;
+  }
+}

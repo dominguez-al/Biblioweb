@@ -1,0 +1,132 @@
+/* ===== CONTENEDOR GENERAL ===== */
+:host {
+  display: block;
+  padding: 2rem 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== TÍTULO PRINCIPAL ===== */
+.titulo-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: rgba(235, 235, 235, 0.85);
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo-seccion h2,
+.titulo-seccion lucide-icon {
+  color: #007bff;
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* ===== SUBTÍTULO ===== */
+.subtitulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(235, 235, 235, 0.85);
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 0.75rem 1.2rem;
+  margin: 2rem 0 1.5rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+  max-width: 200px;
+  text-align: center;
+}
+
+/* ===== TABLA ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 3rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+}
+
+th {
+  background-color: #007bffa5;
+  color: white;
+  padding: 14px;
+  font-weight: bold;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-bottom: 2px solid #ccc;
+}
+
+tr:nth-child(even) td {
+  background-color: #f5faff;
+}
+
+tr:hover td {
+  background-color: #e8f0ff;
+}
+
+/* ===== RESPONSIVE TABLE ===== */
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #007bff;
+  }
+}
+
+.cancelar-btn {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.cancelar-btn:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+}

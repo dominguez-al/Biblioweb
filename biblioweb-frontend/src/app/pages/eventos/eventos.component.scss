@@ -1,0 +1,90 @@
+.eventos-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.eventos-container h2 {
+  font-size: 2.5rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  border: 2px solid #007bff;
+  box-shadow: 0 8px 20px rgba(21, 151, 199, 0.381);
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  color: #007bff;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.evento-card {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 400px;
+}
+
+.evento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgb(0, 123, 255);
+}
+
+.evento-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.evento-card h3 {
+  font-size: 1.6rem;
+  margin: 0.5rem 0;
+  color: #007bff;
+}
+
+.evento-card .descripcion {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.evento-card .fecha {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+/* Responsive grid */
+@media (max-width: 1200px) {
+  .eventos-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .eventos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .eventos-grid {
+    grid-template-columns: 1fr;
+  }
+}

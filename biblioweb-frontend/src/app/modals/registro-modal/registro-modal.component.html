@@ -1,0 +1,48 @@
+<h2 class="titulo">Crear una cuenta</h2>
+<form (ngSubmit)="onSubmit()" class="formulario">
+  <!-- NOMBRE -->
+  <div class="campo">
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" required />
+  </div>
+
+  <!-- EMAIL -->
+  <div class="campo">
+    <label for="email">Correo electrónico</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required (ngModelChange)="validarEmail()" />
+    <span class="error" *ngIf="email && !emailValido">Formato de email inválido</span>
+  </div>
+
+  <!-- CONTRASEÑA -->
+  <div class="campo password-group">
+    <label for="password">Contraseña</label>
+    <div class="password-wrapper">
+      <input [type]="verPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password" required (ngModelChange)="validarPassword()" />
+      <button type="button" class="toggle" (click)="verPassword = !verPassword">
+        <lucide-icon [name]="verPassword ? 'eye-off' : 'eye'" size="20"></lucide-icon>
+      </button>
+
+    </div>
+    <span class="error" *ngIf="password && !passwordValida">
+      Debe tener 8+ caracteres, una mayúscula, una minúscula, un número y un símbolo
+    </span>
+  </div>
+
+
+  <!-- CONFIRMAR -->
+  <div class="campo">
+    <label for="confirmarPassword">Repetir contraseña</label>
+    <input type="password" id="confirmarPassword" [(ngModel)]="confirmarPassword" name="confirmarPassword" required />
+    <span class="error" *ngIf="confirmarPassword && password !== confirmarPassword">Las contraseñas no coinciden</span>
+  </div>
+
+  <!-- BOTONES -->
+  <div class="acciones">
+    <button type="submit" [disabled]="!formularioValido()">Registrarse</button>
+    <button type="button" (click)="cerrar()">Cancelar</button>
+  </div>
+</form>
+
+<!-- MENSAJE FINAL -->
+<div class="mensaje éxito" *ngIf="mensaje">{{ mensaje }}</div>
+<div class="mensaje error" *ngIf="error">{{ error }}</div>

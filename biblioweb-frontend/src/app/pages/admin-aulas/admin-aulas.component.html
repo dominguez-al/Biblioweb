@@ -1,0 +1,35 @@
+<div class="titulo-seccion">
+  <lucide-icon name="table"></lucide-icon>
+  <h2>Gestión de Reservas de Aulas</h2>
+</div>
+
+<div class="subtitulo">
+  <lucide-icon name="list"></lucide-icon>
+  Reservas Activas
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre Aula</th>
+      <th>Fecha Reserva</th>
+      <th>ID Usuario</th>
+      <th>Reservado Por</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reserva of reservasAulas">
+      <td>{{ reserva.nombreAula }}</td>
+      <td>{{ reserva.fechaReservaAula | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ reserva.idUsuario }}</td>
+      <td>{{ reserva.reservadoPor }}</td>
+      <td>
+  <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
+    Cancelar Reserva
+  </button>
+</td>
+    </tr>
+
+  </tbody>
+</table>

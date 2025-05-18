@@ -1,0 +1,28 @@
+<h2><lucide-icon name="calendar-days"></lucide-icon>Mis reservas</h2>
+
+<!-- 📚 LIBROS -->
+<section>
+  <h3><lucide-icon name="book-check"></lucide-icon>Libros reservados</h3>
+  <div class="reserva-grid-libro">
+    <div *ngFor="let reserva of reservasLibros" class="reserva-card-libro">
+      <img [src]="reserva.imagen" alt="Portada del libro" />
+      <p><strong>Titulo:</strong> {{ reserva.titulo }}</p>
+      <p><strong>Reservado:</strong> {{ reserva.fechaReservaLibro | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Devolución:</strong> {{ reserva.fechaDevolucion | date:'dd/MM/yyyy' }}</p>
+      <button (click)="cancelarLibro(reserva.id)">Cancelar</button>
+    </div>
+  </div>
+</section>
+
+<!-- 🏫 AULAS -->
+<section>
+  <h3><lucide-icon name="notebook-pen"></lucide-icon>Aulas reservadas</h3>
+  <div class="reserva-grid-aula">
+    <div *ngFor="let reserva of reservasAulas" class="reserva-card-aula">
+      <h4>{{ reserva.nombreAula }}</h4>
+      <p><strong>Reservado:</strong> {{ reserva.fechaReservaAula | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Devolución:</strong> {{ reserva.fechaDevolucionAula | date:'dd/MM/yyyy' }}</p>
+      <button (click)="cancelarAula(reserva.id)">Cancelar</button>
+    </div>
+  </div>
+</section>

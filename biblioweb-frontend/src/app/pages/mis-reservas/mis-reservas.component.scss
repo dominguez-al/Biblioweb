@@ -1,0 +1,134 @@
+h2, h3 {
+  display: inline-block;
+  background-color: rgba(235, 235, 235, 0.8549019608);
+  color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+h2 lucide-icon,
+h3 lucide-icon {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Centrar el h2 horizontalmente */
+h2 {
+  display: block;
+  text-align: center;
+  margin: 2rem auto 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+/* h3 alineado a la izquierda con recuadro del tamaño del texto */
+h3 {
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+
+
+/* 📚 Libros - tarjetas ligeramente más grandes */
+.reserva-grid-libro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.reserva-card-libro {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
+  padding: 1.2rem;
+  width: 320px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.reserva-card-libro:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+}
+
+.reserva-card-libro img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+/* 🏫 Aulas - tarjetas normales */
+.reserva-grid-aula {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.reserva-card-aula {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.15);
+  padding: 1.2rem;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.reserva-card-aula:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Títulos y texto */
+.reserva-card-libro h4,
+.reserva-card-aula h4 {
+  font-size: 1.2rem;
+  color: #007bff;
+  margin-bottom: 0.8rem;
+}
+
+.reserva-card-libro p,
+.reserva-card-aula p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.reserva-card-libro p strong,
+.reserva-card-aula p strong {
+  color: #007bff;
+}
+
+/* Botón compartido */
+.reserva-card-libro button,
+.reserva-card-aula button {
+  margin-top: 0.8rem;
+  background-color: #f83535;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.reserva-card-libro button:hover,
+.reserva-card-aula button:hover {
+  background-color: #831c1c;
+}

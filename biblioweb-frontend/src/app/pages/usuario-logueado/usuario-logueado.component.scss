@@ -1,0 +1,113 @@
+/* Contenedor general */
+.panel-contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+/* Bloques base sin fondo */
+.bloque-usuario,
+.bloque-admin {
+  flex: 1 1 320px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+/* Íconos Lucide */
+.titulo-admin lucide-icon {
+margin-right: 10px;
+}
+
+.titulo-usuario lucide-icon {
+margin-right: 10px;
+}
+
+/* Títulos */
+.titulo-usuario {
+  font-size: 2.5rem;
+  background-color: rgba(235, 235, 235, 0.8549019608);
+  color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 15px;
+  max-width: 450px;
+  margin: 0 auto 1.2rem;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.titulo-admin {
+  font-size: 2.5rem;
+  background-color: #fff6f0;
+  border: 2px solid #e67e22;
+  color: #e67e22;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: 0 auto 1.2rem;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Lista base */
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Estilos para cada opción de usuario */
+.bloque-usuario li {
+  margin: 1.5rem 3.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f0f4f8;
+  border-left: 4px solid #3498db; /* azul */
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.bloque-usuario li:hover {
+  background-color: #e3edf7;
+  transform: translateX(4px);
+}
+
+/* Estilos para cada opción de admin */
+.bloque-admin li {
+  margin: 1.5rem 3.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #fff6f0;
+  border-left: 4px solid #e67e22; /* naranja */
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+
+}
+
+.bloque-admin li:hover {
+  background-color: #ffe9d9;
+  transform: translateX(4px);
+}
+
+/* Enlaces */
+a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 600;
+  display: flex; /* importante */
+  align-items: center;
+  gap: 0.8rem;    /* separa el emoji del texto */
+  width: 100%;
+}
+
+
+a:hover {
+  color: #1b4f72;
+  text-decoration: underline;
+}
+

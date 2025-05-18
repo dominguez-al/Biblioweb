@@ -1,0 +1,84 @@
+<div class="titulo-seccion">
+  <lucide-icon name="folder-kanban"></lucide-icon><h2>Gestión de Libros</h2>
+</div>
+
+<!-- ✅ Formulario para agregar nuevos libros -->
+<div class="subtitulo"><lucide-icon name="book-plus"></lucide-icon>Agregar Nuevo Libro</div>
+<form (ngSubmit)="crearLibro()" #formLibro="ngForm">
+  <input type="text" name="titulo" [(ngModel)]="nuevoLibro.titulo" placeholder="Título" required />
+  <input type="text" name="autor" [(ngModel)]="nuevoLibro.autor" placeholder="Autor" required />
+  <input type="text" name="genero" [(ngModel)]="nuevoLibro.genero" placeholder="Género" required />
+  <input type="text" name="imagen" [(ngModel)]="nuevoLibro.imagen" placeholder="URL de imagen" />
+
+  <select name="estado" [(ngModel)]="nuevoLibro.estado" required>
+    <option value="DISPONIBLE">DISPONIBLE</option>
+    <option value="RESERVADO">RESERVADO</option>
+  </select>
+
+  <button type="submit" [disabled]="formLibro.invalid">Agregar Libro</button>
+</form>
+
+
+<!-- 🔵 Tabla de todos los libros -->
+<div class="subtitulo"><lucide-icon name="book-key"></lucide-icon>Todos los Libros</div>
+<table>
+  <thead>
+    <tr>
+      <th>Portada</th>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Género</th>
+      <th>Estado</th>
+      <th>Fecha Alta</th>
+      <th>Reservado por</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let libro of libros">
+      <td><img [src]="libro.imagen" alt="Portada" width="60" /></td>
+      <td>{{ libro.titulo }}</td>
+      <td>{{ libro.autor }}</td>
+      <td>{{ libro.genero }}</td>
+      <td>{{ libro.estado }}</td>
+      <td>{{ libro.fechaAltaLibro | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="Reservado por">{{ libro.reservadoPor || '—' }}</td>
+      <td>
+        <button class="eliminar-btn" (click)="eliminarLibro(libro.idLibro!)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<!-- 🟢 Tabla de reservas activas -->
+<div class="subtitulo"><lucide-icon name="book-open-text"></lucide-icon>Reservas activas</div>
+<table>
+  <thead>
+    <tr>
+      <th>Portada</th>
+      <th>Título</th>
+      <th>Fecha Reserva</th>
+      <th>Fecha Devolución</th>
+      <th>Id Usuario</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reserva of reservas">
+      <td><img [src]="reserva.imagen" alt="Portada" width="60" /></td>
+      <td>{{ reserva.titulo }}</td>
+      <td>{{ reserva.fechaReservaLibro | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ reserva.fechaDevolucion | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ reserva.idUsuario }}</td>
+      <td>
+        <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
+          Cancelar Reserva
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

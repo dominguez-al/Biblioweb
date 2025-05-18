@@ -1,0 +1,374 @@
+/* 🎯 Diseño principal */
+.home {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bienvenida {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.bienvenida h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  padding: 1.2rem 2rem;
+  background: #f1f1f1;
+  color: #007bff;
+  border-radius: 20px;
+  border: 2px solid #007bff;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* 🔍 Buscador */
+.buscador {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.buscador input[type="text"] {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.4);
+}
+
+.buscador input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.buscador button {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.buscador button:hover {
+  background-color: #0056b3;
+}
+
+/* 💡 Sugerencias */
+.sugerencias-lista {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 0.5rem;
+}
+
+.sugerencias {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.5rem 0;
+  list-style: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sugerencias li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.sugerencias li:hover {
+  background-color: #e6f0ff;
+}
+
+/* 📚 Resultados */
+.resultados {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.resultados li {
+  background-color: #f1f1f1;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 123, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.resultados li:hover {
+  transform: translateY(-3px);
+}
+
+/* 📦 Secciones */
+/* Contenedor general de las secciones */
+/* Contenedor general */
+.secciones {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Fila superior con 2 secciones */
+.fila-doble {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+/* Cada sección individual */
+.seccion {
+  background-color: #f1f1f1;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0, 123, 255, 0.2);
+  box-sizing: border-box;
+}
+
+/* Secciones dentro de la fila doble */
+.fila-doble .seccion {
+  flex: 1 1 48%;
+  min-width: 300px;
+}
+
+/* Reseñas ocupa todo el ancho */
+.seccion-resenas {
+  width: 100%;
+  max-width: 1400px;
+}
+
+
+.seccion h2,
+.seccion h3 {
+  text-align: center;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+
+
+/* 🖼️ Libros */
+.ultimos-libros {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.libro-item {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 160px;
+  text-align: center;
+  padding: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.libro-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.2);
+}
+
+.libro-imagen {
+  width: 120px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+
+.titulo-popular {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #007bff;
+}
+
+.contador {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.3rem;
+  font-weight: bold;
+}
+
+/* 💬 Reseñas */
+.seccion-resenas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Contenedor de las reseñas en fila */
+.resenas-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Tarjeta de reseña horizontal */
+.resena-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 280px;
+  min-height: 200px;
+  box-sizing: border-box;
+  text-align: left;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.resena-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+}
+
+.resena-card p {
+  margin: 0.3rem 0;
+  color: #333;
+}
+
+.resena-card .fecha {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: auto;
+}
+
+/* 🌐 Responsive Design */
+
+/* Para tablets (≤ 992px) */
+@media (max-width: 992px) {
+  .bienvenida h1 {
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .fila-doble .seccion {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .libro-item {
+    width: 140px;
+  }
+
+  .libro-imagen {
+    width: 100px;
+    height: 150px;
+  }
+
+  .resena-card {
+    width: 240px;
+  }
+}
+
+/* Para móviles (≤ 768px) */
+@media (max-width: 768px) {
+  .home {
+    padding: 1.5rem 1rem;
+  }
+
+  .bienvenida h1 {
+    font-size: 1.8rem;
+  }
+
+  .buscador {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .buscador input[type="text"],
+  .buscador button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .fila-doble {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ultimos-libros {
+    gap: 1rem;
+  }
+
+  .libro-item {
+    width: 120px;
+    padding: 0.8rem;
+  }
+
+  .libro-imagen {
+    width: 90px;
+    height: 130px;
+  }
+
+  .titulo-popular {
+    font-size: 0.85rem;
+  }
+
+  .contador {
+    font-size: 0.75rem;
+  }
+
+  .resena-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+/* Para pantallas pequeñas (≤ 480px) */
+@media (max-width: 480px) {
+  .bienvenida h1 {
+    font-size: 1.5rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .libro-item {
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .libro-imagen {
+    width: 100%;
+    height: auto;
+  }
+
+  .resenas-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .resena-card {
+    width: 90%;
+  }
+}

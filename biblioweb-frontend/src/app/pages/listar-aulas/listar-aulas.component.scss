@@ -1,0 +1,149 @@
+h2 {
+  font-size: 2.5rem;
+  margin: 2rem auto;
+  max-width: 400px;
+  border: 2px solid #007bff;
+  box-shadow: 0 8px 20px rgba(21, 151, 199, 0.2);
+  background-color: #f8faff;
+  border-radius: 20px;
+  color: #007bff;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.aula-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.aula-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 1.5rem 1rem;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aula-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 123, 255, 0.2);
+}
+
+.aula-card.disponible {
+  border-left: 6px solid #2ecc71;
+}
+
+.aula-card.reservada {
+  border-left: 6px solid #e74c3c;
+}
+
+.aula-card h3 {
+  color: #007bff;
+  margin-bottom: 0.6rem;
+  font-size: 1.2rem;
+}
+
+/* Inputs */
+.fecha-input {
+  margin: 0.8rem 0;
+  padding: 0.6rem 1rem;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.fecha-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Botones */
+button {
+  margin-top: 0.6rem;
+  margin-left: 20px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+button:hover:not(.disabled) {
+  background-color: #0056b3;
+}
+
+button.disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Mensaje de error */
+.mensaje-error {
+  background-color: #ffe6e6;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 6px rgba(216, 0, 12, 0.1);
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8rem;
+    padding: 1rem;
+    margin: 1.5rem auto;
+    max-width: 90%;
+  }
+
+  .aula-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .aula-card {
+    width: 90%;
+    padding: 1.2rem;
+  }
+
+  .aula-card h3 {
+    font-size: 1rem;
+  }
+
+  .fecha-input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  button {
+    width: 100%;
+    margin: 0.8rem 0 0 0;
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+
+  .mensaje-error {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.9rem;
+  }
+}

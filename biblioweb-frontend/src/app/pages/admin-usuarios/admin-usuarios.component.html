@@ -1,0 +1,62 @@
+<!-- 🔵 Título principal -->
+<div class="titulo-seccion">
+  <lucide-icon name="user-search"></lucide-icon><h2>Gestión de Usuarios</h2>
+</div>
+
+<!-- 🟡 Botón para mostrar el formulario -->
+<div class="center-button" *ngIf="!formVisible">
+  <button class="crear-usuario-btn" (click)="mostrarFormularioCrear()"><lucide-icon name="user-plus"></lucide-icon>Crear Usuario</button>
+</div>
+
+<!-- 🟢 Formulario de creación / edición -->
+<div class="subtitulo" *ngIf="formVisible">
+  {{ modoEdicion ? 'Editar Usuario' : 'Agregar Nuevo Usuario' }}
+</div>
+
+<form *ngIf="formVisible" (ngSubmit)="modoEdicion ? actualizarUsuario() : crearUsuario()" #formUsuario="ngForm">
+  <div class="form-group">
+    <input type="text" name="nombre" [(ngModel)]="nuevoUsuario.nombre" placeholder="Nombre" required />
+  </div>
+
+  <div class="form-group">
+    <input type="email" name="email" [(ngModel)]="nuevoUsuario.email" placeholder="Email" required />
+  </div>
+
+<div>
+  <input type="password" name="password" [(ngModel)]="nuevoUsuario.password" placeholder="Contraseña" required />
+</div>
+
+  <div class="botones-formulario">
+    <button type="submit" [disabled]="formUsuario.invalid">
+      {{ modoEdicion ? 'Actualizar' : 'Agregar Usuario' }}
+    </button>
+    <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+  </div>
+</form>
+
+<!-- 🔷 Tabla de usuarios -->
+<div class="subtitulo"><lucide-icon name="user-pen"></lucide-icon>
+  Lista de Usuarios
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <td>{{ usuario.id }}</td>
+      <td>{{ usuario.nombre }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>
+        <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
+        <button class="eliminar-btn" (click)="eliminarUsuario(usuario.id!)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

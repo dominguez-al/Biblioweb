@@ -1,0 +1,82 @@
+<div class="home">
+  <!-- 🏠 Bienvenida y buscador -->
+  <div class="bienvenida">
+    <h1>Bienvenido a BiblioWeb</h1>
+
+    <!-- 🔍 Buscador -->
+    <form class="buscador" (ngSubmit)="buscar()">
+      <input
+        type="text"
+        [(ngModel)]="terminoBusqueda"
+        name="busqueda"
+        placeholder="Buscar por título o autor..."
+        (input)="filtrarSugerencias()" />
+
+      <button type="submit">Buscar</button>
+
+      <!-- 💡 Sugerencias -->
+      <div class="sugerencias-lista">
+        <ul class="sugerencias" *ngIf="sugerencias.length > 0">
+          <li *ngFor="let sugerencia of sugerencias" (click)="buscarDesdeSugerencia(sugerencia)">
+            {{ sugerencia.titulo }} - {{ sugerencia.autor }}
+          </li>
+        </ul>
+      </div>
+    </form>
+
+    <!-- 📚 Resultados -->
+    <ul *ngIf="resultados.length > 0" class="resultados">
+      <li *ngFor="let libro of resultados" (click)="verDetalles(libro)">
+        <lucide-icon name="book"></lucide-icon>
+        <strong>{{ libro.titulo }}</strong> - {{ libro.autor }}
+      </li>
+    </ul>
+  </div>
+<div class="secciones">
+  <!-- Libros Populares -->
+   <div class="fila-doble">
+    <div class="seccion seccion-populares">
+      <h3>Libros Populares</h3>
+      <ul *ngIf="librosPopulares.length > 0" class="ultimos-libros">
+        <li *ngFor="let libro of librosPopulares" class="libro-item" (click)="verDetallesPopular(libro)">
+          <img [src]="libro.imagen" [alt]="'Portada de ' + libro.titulo" class="libro-imagen" />
+          <p class="titulo-popular">{{ libro.titulo }}</p>
+        </li>
+      </ul>
+
+      <p *ngIf="librosPopulares.length === 0">No hay datos de popularidad todavía.</p>
+    </div>
+
+    <!-- Últimos Añadidos -->
+    <div class="seccion seccion-anadidos">
+      <h3>Últimos Añadidos</h3>
+      <ul *ngIf="ultimosLibros.length > 0" class="ultimos-libros">
+        <li *ngFor="let libro of ultimosLibros" class="libro-item" (click)="verDetalles(libro)">
+          <img [src]="libro.imagen" alt="Portada de {{ libro.titulo }}" class="libro-imagen" />
+          <p class="titulo-popular">{{ libro.titulo }}</p>
+        </li>
+      </ul>
+
+      <p *ngIf="ultimosLibros.length === 0">No hay libros añadidos recientemente.</p>
+    </div>
+  </div>
+  <!-- Reseñas -->
+<div class="seccion seccion-resenas">
+  <h2>Reseñas de usuarios</h2>
+  <div *ngIf="resenas.length === 0">
+    <p>No hay reseñas disponibles.</p>
+  </div>
+
+  <div class="resenas-container">
+    <div *ngFor="let r of resenas.slice(0, 4)" class="resena-card">
+      <p style="font-weight: bold;"> {{ r.usuarioId }}</p>
+      <p><strong>📚 Libro:</strong> {{ r.tituloLibro }}</p>
+      <p><strong>📝 Comentario:</strong> {{ r.comentario }}</p>
+      <p><strong>⭐ Puntuación:</strong> {{ r.puntuacion }}/5</p>
+      <p class="fecha">📅 {{ r.fecha | date:'dd/MM/yyyy' }}</p>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>

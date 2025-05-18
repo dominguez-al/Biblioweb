@@ -1,0 +1,35 @@
+<h2>Listado de Aulas</h2>
+
+<div class="aula-grid">
+  <div *ngFor="let aula of aulas"
+     class="aula-card"
+     [ngClass]="{
+        'reservada': estaOcupada(aula.id, fechasSeleccionadas[aula.id]),
+        'disponible': !estaOcupada(aula.id, fechasSeleccionadas[aula.id])
+     }">
+    <h3>{{ aula.nombre }}</h3>
+    <p><strong>Capacidad:</strong> {{ aula.capacidad }}</p>
+
+    <!-- Fecha de reserva -->
+    <input
+      type="date"
+      [min]="hoy"
+      [max]="maxFecha"
+      [ngModel]="fechasSeleccionadas[aula.id]"
+      (ngModelChange)="onFechaSeleccionada($event, aula.id)"
+    />
+
+    <!-- Botón de reserva -->
+    <button
+      *ngIf="aula.estado === 'DISPONIBLE' && fechasSeleccionadas[aula.id]"
+      (click)="reservarAula(aula.id)"
+      [disabled]="estaOcupada(aula.id, fechasSeleccionadas[aula.id])">
+      Reservar
+    </button>
+
+    <!-- Mensaje si la fecha está ocupada -->
+    <div *ngIf="estaOcupada(aula.id, fechasSeleccionadas[aula.id])" class="mensaje-error">
+      <lucide-icon name="octagon-x"></lucide-icon>Esta fecha ya está ocupada.
+    </div>
+  </div>
+</div>
