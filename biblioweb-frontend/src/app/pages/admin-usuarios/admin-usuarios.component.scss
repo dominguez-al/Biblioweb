@@ -94,6 +94,22 @@ form select {
   background-color: #fff;
   box-sizing: border-box;
 }
+.invalid {
+  border: 1px solid red;
+}
+
+.error-msg {
+  background-color: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #f5c6cb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(183, 28, 28, 0.1);
+}
+
+
 
 /* Botones del formulario */
 .botones-formulario {

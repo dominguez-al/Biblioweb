@@ -20,10 +20,10 @@
   </thead>
   <tbody>
     <tr *ngFor="let reserva of reservasAulas">
-      <td>{{ reserva.nombreAula }}</td>
-      <td>{{ reserva.fechaReservaAula | date: 'dd/MM/yyyy' }}</td>
-      <td>{{ reserva.idUsuario }}</td>
-      <td>{{ reserva.reservadoPor }}</td>
+      <td data-label="Nombre">{{ reserva.nombreAula }}</td>
+      <td data-label="Fecha">{{ reserva.fechaReservaAula | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="Id Usuario">{{ reserva.idUsuario }}</td>
+      <td data-label="Reservado por">{{ reserva.reservadoPor }}</td>
       <td>
   <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
     Cancelar Reserva

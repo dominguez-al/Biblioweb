@@ -302,9 +302,14 @@
   }
 
   .buscador {
-    flex-direction: column;
-    gap: 0.8rem;
+    justify-content: center;
   }
+
+  .buscador input[type="text"] {
+    margin: 0 auto;
+    display: block;
+  }
+
 
   .buscador input[type="text"],
   .buscador button {

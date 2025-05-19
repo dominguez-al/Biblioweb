@@ -5,6 +5,8 @@ import { TokenService } from '../../services/token.service';
 import { ReservaLibroService } from '../../services/reserva-libro.service';
 import { LoginModalComponent } from '../../modals/login-modal/login-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-libro-detalle-modal',
@@ -43,22 +45,30 @@ reservarLibro() {
   console.log('📦 Datos para reserva:', { idUsuario, idLibro });
 
   if (!idUsuario || !idLibro) {
-    alert('No se pudo obtener la información necesaria.');
+    Swal.fire('Datos faltantes', 'No se pudo obtener la información necesaria.', 'warning');
     return;
   }
+
+  Swal.fire({
+    title: 'Reservando...',
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading()
+  });
 
   this.reservaService.reservar({ idUsuario, idLibro }).subscribe({
     next: () => {
       this.libro.estado = 'RESERVADO';
-      alert('¡Reserva realizada con éxito!');
-      this.dialogRef.close(true);
+      Swal.fire('¡Éxito!', '📚 Reserva realizada correctamente.', 'success').then(() => {
+        this.dialogRef.close(true);
+      });
     },
     error: (err) => {
       console.error('❌ Error al reservar libro:', err);
-      alert('No se pudo realizar la reserva.');
+      Swal.fire('Error', '❌ No se pudo realizar la reserva.', 'error');
     }
   });
 }
+
 
 
 

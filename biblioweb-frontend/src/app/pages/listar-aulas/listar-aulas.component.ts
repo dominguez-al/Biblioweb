@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AulaService } from '../../services/aula.service';
 import { TokenService } from '../../services/token.service';
 import { ReservaAulaService } from '../../services/reserva-aula.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-aulas',
@@ -24,7 +25,6 @@ export class ListarAulasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener ID del usuario autenticado
     const payload = this.tokenService.getPayload();
     if (payload?.idUsuario) {
       this.idUsuario = payload.idUsuario;
@@ -33,7 +33,6 @@ export class ListarAulasComponent implements OnInit {
       console.error("❌ No se pudo obtener el ID del usuario del token");
     }
 
-    // Cargar aulas y sus fechas ocupadas
     this.aulaService.obtenerAulas().subscribe(aulas => {
       this.aulas = aulas;
       console.log('📋 Aulas cargadas:', this.aulas);
@@ -44,38 +43,33 @@ export class ListarAulasComponent implements OnInit {
     });
   }
 
-  // Clase CSS según estado del aula
   getClaseEstado(estado: string): string {
     return (estado || '').trim().toLowerCase();
   }
 
-  // Verifica si una fecha concreta ya está ocupada para un aula
   estaOcupada(idAula: number, fecha: string): boolean {
     return this.fechasOcupadas[idAula]?.includes(fecha);
   }
 
-  // Carga fechas ocupadas de un aula desde el backend
   cargarFechasOcupadas(idAula: number) {
     this.reservaAulaService.obtenerFechasOcupadas(idAula).subscribe(fechas => {
       this.fechasOcupadas[idAula] = fechas.map(f => f.toString());
     });
   }
 
-  // Lógica de selección de fecha
   onFechaSeleccionada(fecha: string, idAula: number): void {
     this.fechasSeleccionadas[idAula] = fecha;
   }
 
-  // Intenta reservar un aula en una fecha concreta
   reservarAula(idAula: number) {
     const fecha = this.fechasSeleccionadas[idAula];
     if (!fecha) {
-      alert("Por favor, selecciona una fecha.");
+      Swal.fire('Fecha no seleccionada', 'Por favor, selecciona una fecha antes de reservar.', 'warning');
       return;
     }
 
     if (this.estaOcupada(idAula, fecha)) {
-      alert("⚠️ Esta fecha ya está ocupada para el aula seleccionada.");
+      Swal.fire('Fecha ocupada', '⚠️ Esta fecha ya está ocupada para el aula seleccionada.', 'warning');
       return;
     }
 
@@ -87,23 +81,29 @@ export class ListarAulasComponent implements OnInit {
 
     console.log("📦 Payload enviado:", payload);
 
+    Swal.fire({
+      title: 'Reservando aula...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
     this.reservaAulaService.crearReserva(payload).subscribe({
       next: (res: any) => {
         console.log("✅ Reserva creada", res);
         const fechaFormateada = new Intl.DateTimeFormat('es-ES').format(new Date(fecha));
-        alert("✅ Aula reservada correctamente para el día " + fechaFormateada);
+        Swal.fire('¡Reservada!', `✅ Aula reservada para el día ${fechaFormateada}`, 'success');
 
-        // Volver a cargar fechas ocupadas tras reservar
         this.cargarFechasOcupadas(idAula);
 
-        // Limpia la fecha tras breve retraso para que se renderice bien
         setTimeout(() => {
           this.fechasSeleccionadas[idAula] = '';
         }, 100);
       },
       error: (err: any) => {
         console.error("❌ Error al reservar aula:", err);
-        alert("❌ Error al reservar el aula. Intenta nuevamente con otro día.");
+        Swal.fire('Error', '❌ No se pudo completar la reserva. Intenta con otra fecha.', 'error');
       }
     });
   }

@@ -15,16 +15,49 @@
 
 <form *ngIf="formVisible" (ngSubmit)="modoEdicion ? actualizarUsuario() : crearUsuario()" #formUsuario="ngForm">
   <div class="form-group">
-    <input type="text" name="nombre" [(ngModel)]="nuevoUsuario.nombre" placeholder="Nombre" required />
+    <input
+      type="text"
+      name="nombre"
+      [(ngModel)]="nuevoUsuario.nombre"
+      placeholder="Nombre"
+      required
+      #nombre="ngModel"
+      [class.invalid]="nombre.invalid && nombre.touched"
+    />
+    <div class="error-msg" *ngIf="nombre.invalid && nombre.touched">
+      El nombre es obligatorio.
+    </div>
   </div>
 
   <div class="form-group">
-    <input type="email" name="email" [(ngModel)]="nuevoUsuario.email" placeholder="Email" required />
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="nuevoUsuario.email"
+      placeholder="Email"
+      required
+      #email="ngModel"
+      [class.invalid]="email.invalid && email.touched"
+    />
+    <div class="error-msg" *ngIf="email.invalid && email.touched">
+      El email es obligatorio y debe tener un formato válido.
+    </div>
   </div>
 
-<div>
-  <input type="password" name="password" [(ngModel)]="nuevoUsuario.password" placeholder="Contraseña" required />
-</div>
+  <div class="form-group">
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="nuevoUsuario.password"
+      placeholder="Contraseña"
+      required
+      #password="ngModel"
+      [class.invalid]="password.invalid && password.touched"
+    />
+    <div class="error-msg" *ngIf="password.invalid && password.touched">
+      La contraseña es obligatoria.
+    </div>
+  </div>
 
   <div class="botones-formulario">
     <button type="submit" [disabled]="formUsuario.invalid">
@@ -33,6 +66,7 @@
     <button type="button" (click)="cancelarEdicion()">Cancelar</button>
   </div>
 </form>
+
 
 <!-- 🔷 Tabla de usuarios -->
 <div class="subtitulo"><lucide-icon name="user-pen"></lucide-icon>
@@ -48,15 +82,16 @@
       <th>Acciones</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let usuario of usuarios">
-      <td>{{ usuario.id }}</td>
-      <td>{{ usuario.nombre }}</td>
-      <td>{{ usuario.email }}</td>
-      <td>
-        <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
-        <button class="eliminar-btn" (click)="eliminarUsuario(usuario.id!)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
+<tbody>
+  <tr *ngFor="let usuario of usuarios">
+    <td data-label="ID">{{ usuario.id }}</td>
+    <td data-label="Nombre">{{ usuario.nombre }}</td>
+    <td data-label="Email">{{ usuario.email }}</td>
+    <td data-label="Acciones">
+      <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
+      <button class="eliminar-btn" (click)="eliminarUsuario(usuario.id!)">Eliminar</button>
+    </td>
+  </tr>
+</tbody>
+
 </table>

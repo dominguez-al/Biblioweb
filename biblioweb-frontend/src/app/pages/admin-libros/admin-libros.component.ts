@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LibroService, Libro } from '../../services/libro.service';
 import { ReservaLibroService } from '../../services/reserva-libro.service';
 import { ReservaLibro } from '../../services/libro.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -64,27 +65,75 @@ cargarReservas(): void {
   });
 }
 
-  eliminarLibro(id: number): void {
-    if (confirm('¿Seguro que deseas eliminar este libro?')) {
-      this.libroService.eliminarLibro(id).subscribe(() => {
-        this.cargarLibros();
+eliminarLibro(id: number): void {
+  Swal.fire({
+    title: '¿Eliminar libro?',
+    text: 'Esta acción eliminará el libro del sistema.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: 'Eliminando...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      this.libroService.eliminarLibro(id).subscribe({
+        next: () => {
+          this.cargarLibros();
+          Swal.fire('Eliminado', 'El libro fue eliminado correctamente.', 'success');
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudo eliminar el libro.', 'error');
+        }
       });
     }
-  }
+  });
+}
+
 
 cancelarReserva(id: number): void {
-console.log('ID de reserva recibido para cancelar:', id);
+  console.log('ID de reserva recibido para cancelar:', id);
   if (!id) {
-    alert('ID de reserva no válido');
+    Swal.fire('ID inválido', 'ID de reserva no válido.', 'warning');
     return;
   }
 
-  if (confirm('¿Seguro que deseas cancelar esta reserva?')) {
-    this.reservaLibroService.cancelarReserva(id).subscribe(() => {
-      this.cargarLibros();
-      this.cargarReservas();
-    });
-  }
+  Swal.fire({
+    title: '¿Cancelar reserva?',
+    text: 'Esto liberará el libro reservado.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, cancelar',
+    cancelButtonText: 'Volver',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: 'Cancelando...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      this.reservaLibroService.cancelarReserva(id).subscribe({
+        next: () => {
+          this.cargarLibros();
+          this.cargarReservas();
+          Swal.fire('Cancelada', 'La reserva fue cancelada correctamente.', 'success');
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudo cancelar la reserva.', 'error');
+        }
+      });
+    }
+  });
 }
+
 
     }

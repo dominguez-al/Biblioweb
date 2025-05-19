@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservaAulaService } from '../../services/reserva-aula.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-admin-aulas',
@@ -22,17 +24,41 @@ export class AdminAulasComponent implements OnInit {
     });
   }
 
-  cancelarReserva(id: number): void {
-    if (!id) {
-      alert('ID de reserva no válido');
-      return;
-    }
+cancelarReserva(id: number): void {
+  if (!id) {
+    Swal.fire('ID inválido', 'ID de reserva no válido.', 'warning');
+    return;
+  }
 
-    if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
-      this.reservaAulaService.cancelarReserva(id).subscribe(() => {
-        this.cargarReservas(); // ✅ Este método sí existe
+  Swal.fire({
+    title: '¿Cancelar reserva?',
+    text: 'Esta acción liberará el aula reservada.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, cancelar',
+    cancelButtonText: 'Volver',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: 'Cancelando...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      this.reservaAulaService.cancelarReserva(id).subscribe({
+        next: () => {
+          this.cargarReservas();
+          Swal.fire('Cancelada', 'La reserva fue cancelada correctamente.', 'success');
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudo cancelar la reserva.', 'error');
+        }
       });
     }
-  }
+  });
+}
+
 }
 

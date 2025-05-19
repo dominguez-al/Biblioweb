@@ -125,3 +125,74 @@
   color: #e74c3c;
   background-color: #f8d7da;
 }
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .catalogo-container {
+    padding: 1.5rem;
+  }
+
+  .catalogo-container h2 {
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .libros-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtro-genero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding-left: 0;
+  }
+
+  .catalogo-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .libros-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .libro-card {
+    min-height: 420px;
+    padding: 0.8rem;
+  }
+
+  .libro-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .libro-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalogo-container {
+    padding: 1rem;
+  }
+
+  .catalogo-container h2 {
+    font-size: 1.6rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .libros-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .libro-card {
+    min-height: 400px;
+  }
+
+  .estado-chip {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

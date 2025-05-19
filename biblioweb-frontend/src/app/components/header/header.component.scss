@@ -1,16 +1,19 @@
 .header {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.6rem 1rem;
   background-color: #ebebebda;
+  flex-wrap: wrap;
 
-
-
-  .left {
+  .left,
+  .right {
     display: flex;
     align-items: center;
+  }
+
+  .left {
+    flex-wrap: wrap;
 
     a {
       display: flex;
@@ -26,13 +29,11 @@
       font-size: 1rem;
       background-color: transparent;
 
-
       lucide-icon {
         width: 22px;
         height: 22px;
         color: #007bff;
         flex-shrink: 0;
-
       }
 
       &:hover {
@@ -50,14 +51,10 @@
       font-weight: 600;
       background-color: #d6f8ff;
       box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
-
     }
   }
 
   .right {
-    display: flex;
-    align-items: center;
-
     .btn {
       background-color: #007bff;
       color: white;
@@ -67,7 +64,6 @@
       text-decoration: none;
       font-size: 0.95rem;
 
-
       &:hover {
         background-color: #0056b3;
       }
@@ -75,6 +71,9 @@
 
     .avatar-wrapper {
       position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5rem;
 
       .avatar-link {
         background: none;
@@ -82,7 +81,6 @@
         cursor: pointer;
         padding: 0.4rem;
         border-radius: 50%;
-
 
         &:hover {
           background-color: #d1e6fb;
@@ -96,11 +94,11 @@
       }
 
       .menu {
-        border: 1px solid #9e9e9e;
         position: absolute;
         top: 110%;
         right: 0;
         background: #f1f1f1;
+        border: 1px solid #9e9e9e;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         padding: 0.5rem;
@@ -123,7 +121,6 @@
           text-decoration: none;
           cursor: pointer;
 
-
           &:hover {
             background-color: #d6f8ff;
           }
@@ -132,6 +129,72 @@
 
       &.activo .avatar-link {
         box-shadow: 0 0 0 3px #cfe2ff;
+      }
+    }
+  }
+
+  // MEDIA QUERIES PARA RESPONSIVE
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 1.5rem;
+
+    .left,
+    .right {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .left a {
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: center;
+      width: 100%;
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+        margin-left: 0;
+        text-align: center;
+        padding: 0.6rem 1rem;
+        font-size: 1rem;
+      }
+
+      .avatar-wrapper {
+        position: relative;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      // ✅ Corrige la posición del menú en móviles
+      .menu {
+        top: calc(100% + 0.5rem);
+        left: 50%;
+        right: auto !important;
+        transform: translateX(-50%);
+        width: max-content;
+        min-width: 160px;
+        max-width: 90vw;
+        z-index: 1000;
       }
     }
   }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService, Usuario } from '../../services/usuario.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-admin-usuarios',
@@ -75,10 +77,34 @@ export class AdminUsuariosComponent implements OnInit {
   }
 
   eliminarUsuario(id: number): void {
-    if (confirm('¿Seguro que deseas eliminar este usuario?')) {
-      this.usuarioService.eliminarUsuario(id).subscribe(() => {
-        this.cargarUsuarios();
+  Swal.fire({
+    title: '¿Eliminar usuario?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: 'Eliminando...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      this.usuarioService.eliminarUsuario(id).subscribe({
+        next: () => {
+          this.cargarUsuarios();
+          Swal.fire('Eliminado', 'El usuario ha sido eliminado correctamente.', 'success');
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudo eliminar el usuario. Intenta nuevamente.', 'error');
+        }
       });
     }
-  }
+  });
+}
+
 }

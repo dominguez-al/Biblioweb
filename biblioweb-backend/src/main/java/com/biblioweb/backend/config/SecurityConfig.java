@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/usuarios/listar").permitAll()
 
                 // Libros
-                .requestMatchers("/libros/crear", "/libros/actualizar/**", "/libros/borrar/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/libros/crear", "/libros/actualizar/**", "/libros/borrar/**").permitAll()//.hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/libros/listar", "/libros/ver/**", "/libros/ultimos", "/libros/populares").permitAll()
 
                 // Aulas

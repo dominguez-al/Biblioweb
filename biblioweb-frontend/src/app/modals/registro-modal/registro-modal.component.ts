@@ -58,7 +58,7 @@ export class RegistroModalComponent {
         setTimeout(() => this.dialogRef.close(), 1500);
       },
       error: (err) => {
-        this.error = typeof err.error === 'string' ? err.error : 'Error desconocido';
+        this.error = typeof err.error === 'string' ? err.error : 'Correo ya registrado';
         this.mensaje = '';
       }
     });
