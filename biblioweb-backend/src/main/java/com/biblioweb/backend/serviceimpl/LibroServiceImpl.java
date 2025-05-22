@@ -10,17 +10,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementación de la interfaz LibroService.
- * Contiene la lógica de negocio relacionada con libros.
+ * Implementación concreta de la interfaz LibroService.
+ * Contiene la lógica de negocio para gestionar libros, utilizando el repositorio para acceso a datos.
  */
 @Service
 public class LibroServiceImpl implements LibroService {
 
     @Autowired
-    private LibroRepository libroRepository; // Inyección del repositorio para acceso a datos
+    private LibroRepository libroRepository; // Acceso a la base de datos de libros
 
     /**
-     * Devuelve la lista de todos los libros.
+     * Lista todos los libros registrados.
+     *
+     * @return lista de libros
      */
     @Override
     public List<Libro> listarLibros() {
@@ -28,7 +30,10 @@ public class LibroServiceImpl implements LibroService {
     }
 
     /**
-     * Devuelve un libro por su ID si existe.
+     * Busca un libro por su ID.
+     *
+     * @param id ID del libro
+     * @return Optional con el libro si existe
      */
     @Override
     public Optional<Libro> obtenerLibroPorId(Long id) {
@@ -36,7 +41,10 @@ public class LibroServiceImpl implements LibroService {
     }
 
     /**
-     * Guarda un nuevo libro.
+     * Guarda un nuevo libro (alta).
+     *
+     * @param libro entidad libro
+     * @return libro persistido
      */
     @Override
     public Libro guardarLibro(Libro libro) {
@@ -44,28 +52,41 @@ public class LibroServiceImpl implements LibroService {
     }
 
     /**
-     * Actualiza un libro existente (por ID incluido en la entidad).
+     * Actualiza un libro existente.
+     * Usa el mismo método `save()` ya que JPA detecta si es un update por el ID presente.
+     *
+     * @param libro libro con cambios
+     * @return libro actualizado
      */
     @Override
     public Libro actualizarLibro(Libro libro) {
-        return libroRepository.save(libro); // save() sirve tanto para crear como para actualizar
+        return libroRepository.save(libro);
     }
 
-
+    /**
+     * Obtiene los últimos 2 libros agregados (ordenados por fecha de alta descendente).
+     *
+     * @return lista de libros recientes
+     */
     @Override
     public List<Libro> obtenerUltimosLibros() {
         return libroRepository.findTop2ByOrderByFechaAltaLibroDesc();
     }
-    
+
+    /**
+     * Obtiene los 2 libros más reservados (más populares).
+     *
+     * @return lista de libros con mayor número de reservas
+     */
     @Override
     public List<Libro> obtenerLibrosMasPopulares() {
         return libroRepository.findTop2ByOrderByTotalReservasDesc();
     }
 
-    
-
     /**
      * Elimina un libro por su ID.
+     *
+     * @param id ID del libro a eliminar
      */
     @Override
     public void eliminarLibro(Long id) {

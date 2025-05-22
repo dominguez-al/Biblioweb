@@ -25,17 +25,17 @@ export class ListarAulasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const payload = this.tokenService.getPayload();
+    const payload = this.tokenService.getUsuarioDesdeToken();
     if (payload?.idUsuario) {
       this.idUsuario = payload.idUsuario;
-      console.log("🧪 ID de usuario:", this.idUsuario);
+      //console.log("ID de usuario:", this.idUsuario);
     } else {
-      console.error("❌ No se pudo obtener el ID del usuario del token");
+      //console.error(" No se pudo obtener el ID del usuario del token");
     }
 
     this.aulaService.obtenerAulas().subscribe(aulas => {
       this.aulas = aulas;
-      console.log('📋 Aulas cargadas:', this.aulas);
+      //console.log(' Aulas cargadas:', this.aulas);
 
       this.aulas.forEach(aula => {
         this.cargarFechasOcupadas(aula.id);
@@ -60,6 +60,19 @@ export class ListarAulasComponent implements OnInit {
   onFechaSeleccionada(fecha: string, idAula: number): void {
     this.fechasSeleccionadas[idAula] = fecha;
   }
+
+
+scrollIntoViewOnFocus(event: FocusEvent) {
+  setTimeout(() => {
+    const element = event.target as HTMLElement;
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center' // mejor que 'start'
+    });
+    window.scrollBy(0, -50); // ajusta aún más para que se vea el calendario
+  }, 150);
+}
+
 
   reservarAula(idAula: number) {
     const fecha = this.fechasSeleccionadas[idAula];

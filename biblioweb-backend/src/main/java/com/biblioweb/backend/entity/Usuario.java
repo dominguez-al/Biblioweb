@@ -10,6 +10,7 @@ public class Usuario {
 
     @Id // Define el campo que actúa como clave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Indica que el valor del ID se genera automáticamente (auto-incremento en MySQL)
+    @Column(name = "id_usuario")
     private Long idUsuario;
 
     // Campos simples que se almacenan como columnas en la tabla
@@ -17,6 +18,7 @@ public class Usuario {
     @Column(unique = true) // No se permiten duplicados en el campo email
     private String email;
     private String password;
+    @Column(name = "f_alta_usuario")
     private LocalDate fAltaUsuario; // Fecha en la que se dio de alta el usuario
     @Column(nullable = false)
     private String rol; // puede ser "ADMIN" o "USER

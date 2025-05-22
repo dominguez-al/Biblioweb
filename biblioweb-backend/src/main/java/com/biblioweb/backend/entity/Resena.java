@@ -1,49 +1,47 @@
 package com.biblioweb.backend.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "resena")
+@Entity // Marca esta clase como una entidad de JPA
+@Table(name = "resena") // Asocia esta entidad con la tabla 'resena' en la base de datos
 public class Resena {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Valor generado automáticamente (auto-incremental)
     private Long id;
 
-    private String comentario; // Texto de la reseña
+    private String comentario; // Texto de la reseña escrita por el usuario
 
-    private int puntuacion; // Valoración de 1 a 5
+    private int puntuacion; // Puntuación del libro 
 
-    private LocalDateTime fecha; // Fecha de la reseña
+    private LocalDateTime fecha; // Fecha y hora en que se publicó la reseña
 
-    private String usuarioId; // Usuario que la escribió
+    @JoinColumn(name = "usuario_id")
+    private String usuarioId; // Identificador del usuario que escribió la reseña (puede ser un email, UUID, etc.)
 
-    @ManyToOne // Muchas reseñas pueden pertenecer a un solo libro
-    @JoinColumn(name = "libro_id") // Clave foránea en la tabla
+    // Relación muchos-a-uno: muchas reseñas pueden estar asociadas a un solo libro
+    @ManyToOne
+    @JoinColumn(name = "libro_id") // Define el nombre de la columna que actúa como clave foránea
     private Libro libro;
 
-    
-    //Contructores
-    public Resena() {
-	}
+    // Constructor vacío necesario para JPA
+    public Resena() {}
 
-    
+    // Constructor completo
     public Resena(Long id, String comentario, int puntuacion, LocalDateTime fecha, String usuarioId, Libro libro) {
-		this.id = id;
-		this.comentario = comentario;
-		this.puntuacion = puntuacion;
-		this.fecha = fecha;
-		this.usuarioId = usuarioId;
-		this.libro = libro;
-	}
-    
+        this.id = id;
+        this.comentario = comentario;
+        this.puntuacion = puntuacion;
+        this.fecha = fecha;
+        this.usuarioId = usuarioId;
+        this.libro = libro;
+    }
 
-	// Getters y setters (puedes generarlos con tu IDE)
+    // Getters y Setters
+
     public Long getId() { return id; }
-    
-	public void setId(Long id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getComentario() { return comentario; }
     public void setComentario(String comentario) { this.comentario = comentario; }
@@ -60,4 +58,3 @@ public class Resena {
     public Libro getLibro() { return libro; }
     public void setLibro(Libro libro) { this.libro = libro; }
 }
-

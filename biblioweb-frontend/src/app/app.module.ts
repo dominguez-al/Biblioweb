@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { Import, LucideAngularModule, UserPlus, UserPen, LibraryBig, Shield , UserSearch, NotebookPen, PenTool, CalendarDays, OctagonX , CircleUserRound, House, BookCheck, Puzzle, User, LogOut, Book, Calculator, FolderKanban, BookPlus , BookOpenText , BookKey, Table, List   } from 'lucide-angular';
+import { Import, LucideAngularModule, UserPlus, UserPen, CircleArrowLeft, LibraryBig, Shield , UserSearch, NotebookPen, PenTool, CalendarDays, OctagonX , CircleUserRound, House, BookCheck, Puzzle, User, LogOut, Book, Calculator, FolderKanban, BookPlus , BookOpenText , BookKey, Table, List   } from 'lucide-angular';
 import { Eye, EyeOff } from 'lucide';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HomeComponent } from './pages/home/home.component';
@@ -53,7 +53,7 @@ import { AdminUsuariosComponent } from './pages/admin-usuarios/admin-usuarios.co
     CommonModule,
     HttpClientModule,
     MatDialogModule,
-    LucideAngularModule.pick({ Eye, EyeOff, UserPlus, UserPen, LibraryBig, Shield , UserSearch, NotebookPen,PenTool,CalendarDays, OctagonX, CircleUserRound, House, BookCheck, Puzzle, User, LogOut, Book, Calculator, FolderKanban , BookPlus , BookOpenText , BookKey, Table, List  })
+    LucideAngularModule.pick({ Eye, EyeOff, UserPlus, UserPen, CircleArrowLeft, LibraryBig, Shield , UserSearch, NotebookPen,PenTool,CalendarDays, OctagonX, CircleUserRound, House, BookCheck, Puzzle, User, LogOut, Book, Calculator, FolderKanban , BookPlus , BookOpenText , BookKey, Table, List  })
   ],
   bootstrap: [AppComponent]
 })

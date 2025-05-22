@@ -16,20 +16,19 @@ import java.util.stream.Collectors;
 
 /**
  * Implementación concreta del servicio de aulas.
- * Contiene la lógica de acceso a datos usando AulaRepository.
+ * Contiene la lógica de negocio y de acceso a datos relacionada con las aulas.
  */
 @Service
 public class AulaServiceImpl implements AulaService {
 
     @Autowired
-    private AulaRepository aulaRepository;
+    private AulaRepository aulaRepository; // Repositorio de acceso a la tabla 'aula'
     
     @Autowired
-    private UsuarioAulaRepository usuarioAulaRepository;
-
+    private UsuarioAulaRepository usuarioAulaRepository; // Repositorio para verificar reservas
 
     /**
-     * Lista todas las aulas existentes en la base de datos.
+     * Devuelve la lista de todas las aulas.
      */
     @Override
     public List<Aula> listarAulas() {
@@ -37,7 +36,7 @@ public class AulaServiceImpl implements AulaService {
     }
 
     /**
-     * Devuelve un aula por su ID.
+     * Busca un aula por su ID.
      */
     @Override
     public Optional<Aula> obtenerAulaPorId(Long id) {
@@ -45,7 +44,7 @@ public class AulaServiceImpl implements AulaService {
     }
 
     /**
-     * Guarda una nueva aula.
+     * Guarda una nueva aula en la base de datos.
      */
     @Override
     public Aula guardarAula(Aula aula) {
@@ -53,7 +52,7 @@ public class AulaServiceImpl implements AulaService {
     }
 
     /**
-     * Actualiza los datos de un aula.
+     * Actualiza los datos de una aula existente.
      */
     @Override
     public Aula actualizarAula(Aula aula) {
@@ -67,14 +66,25 @@ public class AulaServiceImpl implements AulaService {
     public void eliminarAula(Long id) {
         aulaRepository.deleteById(id);
     }
-    
+
+    /**
+     * Devuelve la lista de aulas con su estado actual (ocupado o disponible) para el día de hoy.
+     * Recorre todas las aulas y consulta si hay una reserva asociada para la fecha actual.
+     *
+     * @return Lista de AulaVO con estado contextual
+     */
     @Override
     public List<AulaVO> listarAulasConEstadoHoy() {
-        List<Aula> aulas = aulaRepository.findAll();
-        LocalDate hoy = LocalDate.now();
+        List<Aula> aulas = aulaRepository.findAll();        // Obtener todas las aulas
+        LocalDate hoy = LocalDate.now();                    // Fecha actual
 
         return aulas.stream().map(aula -> {
-            boolean ocupada = usuarioAulaRepository.existsByAula_IdAulaAndFechaReservaAula(aula.getIdAula(), hoy);
+            // Verificar si el aula está reservada hoy
+            boolean ocupada = usuarioAulaRepository.existsByAula_IdAulaAndFechaReservaAula(
+                aula.getIdAula(), hoy
+            );
+
+            // Crear VO con el estado "ocupado" o "disponible"
             return new AulaVO(
                 aula.getIdAula(),
                 aula.getNombre(),
@@ -83,5 +93,5 @@ public class AulaServiceImpl implements AulaService {
             );
         }).collect(Collectors.toList());
     }
-    
 }
+

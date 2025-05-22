@@ -11,13 +11,16 @@
     <p><strong>Capacidad:</strong> {{ aula.capacidad }}</p>
 
     <!-- Fecha de reserva -->
-    <input
-      type="date"
-      [min]="hoy"
-      [max]="maxFecha"
-      [ngModel]="fechasSeleccionadas[aula.id]"
-      (ngModelChange)="onFechaSeleccionada($event, aula.id)"
-    />
+<input
+  type="date"
+  [min]="hoy"
+  [max]="maxFecha"
+  class="fecha-input"
+  [ngModel]="fechasSeleccionadas[aula.id]"
+  (ngModelChange)="onFechaSeleccionada($event, aula.id)"
+  (focus)="scrollIntoViewOnFocus($event)"
+/>
+
 
     <!-- Botón de reserva -->
     <button
@@ -33,3 +36,7 @@
     </div>
   </div>
 </div>
+
+<!-- Espaciador al final -->
+<div class="espaciador"></div>
+

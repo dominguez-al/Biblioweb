@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 
-interface TokenPayload {
-  sub: string;         // Email del usuario
+interface UsuarioToken {
+  email: string;         // Email del usuario
   role: string;        // 'USER' o 'ADMIN'
   nombre: string;      // Nombre del usuario
   idUsuario: number;   // ID del usuario
@@ -20,11 +20,11 @@ export class TokenService {
   }
 
   // Decodifica el token JWT
-  getPayload(): TokenPayload | null {
+  getUsuarioDesdeToken(): UsuarioToken | null {
     const token = this.getToken();
     if (!token) return null;
     try {
-      return jwtDecode<TokenPayload>(token);
+      return jwtDecode<UsuarioToken>(token);
     } catch {
       return null;
     }
@@ -32,29 +32,29 @@ export class TokenService {
 
   // Comprobar si el usuario es ADMIN
   isAdmin(): boolean {
-    return this.getPayload()?.role === 'ADMIN';
+    return this.getUsuarioDesdeToken()?.role === 'ADMIN';
   }
 
   // Devuelve el ID del usuario
-  getUserId(): number | null {
-    const payload = this.getPayload();
-    console.log('Payload decodificado:', payload);
-    return payload?.idUsuario || null;
+  getUsuarioId(): number | null {
+    const datosUsuario  = this.getUsuarioDesdeToken();
+    console.log('datosUsuario  decodificado:', datosUsuario );
+    return datosUsuario ?.idUsuario || null;
   }
 
   // Devuelve el rol
   getRole(): string | null {
-    return this.getPayload()?.role || null;
+    return this.getUsuarioDesdeToken()?.role || null;
   }
 
   // Devuelve el nombre
   getNombre(): string | null {
-    return this.getPayload()?.nombre || null;
+    return this.getUsuarioDesdeToken()?.nombre || null;
   }
 
   // Devuelve el email
   getEmail(): string | null {
-    return this.getPayload()?.sub || null;
+    return this.getUsuarioDesdeToken()?.email || null;
   }
 
   // Comprueba si hay sesión iniciada

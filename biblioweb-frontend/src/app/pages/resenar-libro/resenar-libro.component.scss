@@ -16,6 +16,34 @@ h2 {
   font-weight: 700;
 }
 
+/* Boton volver */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  gap: 8px; /* espacio entre icono y texto */
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-volver lucide-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block; /* Asegura que se alinee bien */
+  vertical-align: middle;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -41,7 +69,7 @@ input[type="number"] {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  width: 100%;
+
 }
 
 textarea {
@@ -70,9 +98,13 @@ p {
   color: #007bff;
 }
 
-/* ======================== */
+.espaciador {
+  height: 50px; /* O más si es necesario */
+}
+
+
 /*      RESPONSIVE CSS      */
-/* ======================== */
+
 
 @media (max-width: 768px) {
   h2 {

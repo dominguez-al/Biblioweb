@@ -3,30 +3,48 @@ package com.biblioweb.backend.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "usuario_libro")
+@Entity // Declara esta clase como una entidad de JPA
+@Table(name = "usuario_libro") // La tabla en la base de datos asociada a esta entidad
 public class UsuarioLibro {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generación automática del ID (auto-incremental)
+    @Column(name = "id_reserva_libro")
     private Long idReservaLibro;
 
+    // Relación muchos-a-uno: muchas reservas pueden estar asociadas a un mismo usuario
     @ManyToOne
-    @JoinColumn(name = "id_usuario") // FK a Usuario
+    @JoinColumn(name = "id_usuario") // Clave foránea a la tabla 'usuario'
     private Usuario usuario;
 
+    // Relación muchos-a-uno: un libro puede estar reservado muchas veces
     @ManyToOne
-    @JoinColumn(name = "id_libro") // FK a Libro
+    @JoinColumn(name = "id_libro") // Clave foránea a la tabla 'libro'
     private Libro libro;
 
+    @Column(name = "fecha_reserva_libro")
+    // Fecha en la que se hizo la reserva del libro
     private LocalDate fechaReservaLibro;
+
+    @Column(name = "fecha_devolucion")
+    // Fecha en la que se espera (o se hizo) la devolución
     private LocalDate fechaDevolucion;
+
+    // Campo adicional para almacenar la URL o path de una imagen asociada (opcional)
     private String imagen;
 
+    // Constructor por defecto (requerido por JPA)
     public UsuarioLibro() {}
 
-    // Constructor personalizado
-    public UsuarioLibro(Long idReservaLibro, Usuario usuario, Libro libro, LocalDate fechaReservaLibro, LocalDate fechaDevolucion, String imagen) {
+    // Constructor completo (útil para crear instancias manualmente)
+    public UsuarioLibro(
+        Long idReservaLibro,
+        Usuario usuario,
+        Libro libro,
+        LocalDate fechaReservaLibro,
+        LocalDate fechaDevolucion,
+        String imagen
+    ) {
         this.idReservaLibro = idReservaLibro;
         this.usuario = usuario;
         this.libro = libro;
@@ -36,6 +54,7 @@ public class UsuarioLibro {
     }
 
     // Getters y Setters
+
     public Long getIdReservaLibro() {
         return idReservaLibro;
     }
@@ -60,7 +79,6 @@ public class UsuarioLibro {
         this.libro = libro;
     }
 
-
     public LocalDate getFechaReservaLibro() {
         return fechaReservaLibro;
     }
@@ -77,13 +95,12 @@ public class UsuarioLibro {
         this.fechaDevolucion = fechaDevolucion;
     }
 
-	public String getImagen() {
-		return imagen;
-	}
+    public String getImagen() {
+        return imagen;
+    }
 
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
-    
-   
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }
+

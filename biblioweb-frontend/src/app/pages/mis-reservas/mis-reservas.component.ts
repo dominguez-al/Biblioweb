@@ -3,6 +3,7 @@ import { ReservaLibroService } from '../../services/reserva-libro.service';
 import { ReservaAulaService } from '../../services/reserva-aula.service';
 import { TokenService } from '../../services/token.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -17,11 +18,12 @@ export class MisReservasComponent implements OnInit {
   constructor(
     private reservaLibroService: ReservaLibroService,
     private reservaAulaService: ReservaAulaService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    const idUsuario = this.tokenService.getUserId();
+    const idUsuario = this.tokenService.getUsuarioId();
     if (!idUsuario) return;
 
     this.reservaLibroService.obtenerReservasUsuario(idUsuario).subscribe(libros => {
@@ -32,6 +34,10 @@ export class MisReservasComponent implements OnInit {
       this.reservasAulas = aulas;
     });
   }
+
+volverAtras(): void {
+  this.router.navigate(['/usuario-logueado']);
+}
 
   cancelarLibro(id: number): void {
     Swal.fire({
@@ -84,7 +90,7 @@ export class MisReservasComponent implements OnInit {
 
         this.reservaAulaService.cancelarReserva(id).subscribe({
           next: () => {
-            const idUsuario = this.tokenService.getUserId();
+            const idUsuario = this.tokenService.getUsuarioId();
             if (!idUsuario) return;
 
             this.reservaAulaService.obtenerReservasUsuario(idUsuario).subscribe(aulas => {

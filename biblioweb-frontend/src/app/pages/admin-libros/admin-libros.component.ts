@@ -3,6 +3,7 @@ import { LibroService, Libro } from '../../services/libro.service';
 import { ReservaLibroService } from '../../services/reserva-libro.service';
 import { ReservaLibro } from '../../services/libro.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 
@@ -30,7 +31,8 @@ export class AdminLibrosComponent implements OnInit {
 
   constructor(
     private libroService: LibroService,
-    private reservaLibroService: ReservaLibroService
+    private reservaLibroService: ReservaLibroService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,11 @@ export class AdminLibrosComponent implements OnInit {
     };
     this.cargarLibros();
   });
+}
+
+
+volverAtras(): void {
+  this.router.navigate(['/usuario-logueado']);
 }
 
 cargarLibros(): void {

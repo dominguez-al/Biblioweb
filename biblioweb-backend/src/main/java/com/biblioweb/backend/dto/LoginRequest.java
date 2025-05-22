@@ -1,22 +1,34 @@
 package com.biblioweb.backend.dto;
 
 /**
- * DTO para capturar los datos de inicio de sesión enviados por el cliente.
- * Este objeto se usa únicamente para recibir el email y la contraseña del usuario al hacer login.
+ * DTO (Data Transfer Object) para capturar los datos de inicio de sesión
+ * enviados por el cliente al backend. Se utiliza en el endpoint de login.
  */
 public class LoginRequest {
 
-    // Campo para el email del usuario
+    // Campo para el email del usuario que intenta iniciar sesión
     private String email;
 
-    // Campo para la contraseña en texto plano (será comparada con la encriptada)
+    // Campo para la contraseña en texto plano (luego será comparada con la versión encriptada en la BD)
     private String password;
 
-    // Getter y Setter para email
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    // Getter para el campo email
+    public String getEmail() {
+        return email;
+    }
 
-    // Getter y Setter para password
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    // Setter para el campo email
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Getter para el campo password
+    public String getPassword() {
+        return password;
+    }
+
+    // Setter para el campo password
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

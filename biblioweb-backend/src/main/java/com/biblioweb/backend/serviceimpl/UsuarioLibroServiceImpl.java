@@ -9,10 +9,8 @@ import com.biblioweb.backend.repository.UsuarioLibroRepository;
 import com.biblioweb.backend.repository.UsuarioRepository;
 import com.biblioweb.backend.service.CorreoService;
 import com.biblioweb.backend.service.UsuarioLibroService;
-import com.biblioweb.backend.vo.LibroPopularVO;
 import com.biblioweb.backend.vo.UsuarioLibroVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,84 +18,95 @@ import java.util.List;
 
 /**
  * Implementación de UsuarioLibroService.
- * Gestiona la lógica de negocio relacionada con reservas de libros por parte de usuarios.
+ * Contiene la lógica de negocio para la gestión de reservas de libros por parte de usuarios.
  */
 @Service
 public class UsuarioLibroServiceImpl implements UsuarioLibroService {
 
     @Autowired
-    private UsuarioLibroRepository usuarioLibroRepository;
+    private UsuarioLibroRepository usuarioLibroRepository; // Acceso a datos de reservas de libros
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository; // Acceso a datos de usuarios
 
     @Autowired
-    private LibroRepository libroRepository;
-    
+    private LibroRepository libroRepository; // Acceso a datos de libros
+
     @Autowired
-    private CorreoService correoService;
+    private CorreoService correoService; // Envío de correos al usuario
 
     /**
-     * Devuelve todas las reservas de libros registradas.
+     * Devuelve todas las reservas de libros registradas en la base de datos.
+     * Usado principalmente en administración o para debug.
      */
     @Override
     public List<UsuarioLibro> listarReservas() {
         return usuarioLibroRepository.findAll();
     }
 
-    
-    
     /**
-     * Crea una reserva a partir de un VO:
-     * - Busca el usuario y el libro
-     * - Mapea el VO a entidad
+     * Crea una nueva reserva de libro a partir de un objeto VO.
+     * - Verifica que el libro no esté ya reservado
+     * - Marca el libro como RESERVADO
+     * - Incrementa el contador de reservas
+     * - Establece fechas de préstamo y devolución
      * - Guarda la reserva
+     * - Notifica por correo al usuario
+     *
+     * @param vo Objeto de vista que contiene la info de la reserva
+     * @return Reserva guardada (entidad)
      */
     @Override
     public UsuarioLibro crearDesdeVO(UsuarioLibroVO vo) {
+        // Buscar usuario
         Usuario usuario = usuarioRepository.findById(vo.getIdUsuario())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        // Buscar libro
         Libro libro = libroRepository.findById(vo.getIdLibro())
                 .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
 
-        // Verificar si el libro ya está RESERVADO
+        // Validar disponibilidad
         if ("RESERVADO".equalsIgnoreCase(libro.getEstado())) {
             throw new RuntimeException("El libro ya está reservado y no se puede reservar.");
         }
 
-        // Cambiar estado del libro a RESERVADO
+        // Marcar como reservado
         libro.setEstado("RESERVADO");
-        
-        // Antes de guardar el libro
+
+        // Incrementar el contador de reservas del libro
         libro.setTotalReservas(libro.getTotalReservas() + 1);
         libroRepository.save(libro);
 
-
-        // Crear reserva
+        // Crear entidad UsuarioLibro a partir del VO
         UsuarioLibro reserva = UsuarioLibroMapper.toEntity(vo, usuario, libro);
 
-        // Establecer fechas automáticamente
+        // Establecer fecha actual y devolución a 2 semanas
         reserva.setFechaReservaLibro(LocalDate.now());
         reserva.setFechaDevolucion(LocalDate.now().plusWeeks(2));
 
+        // Guardar reserva
         UsuarioLibro reservaGuardada = usuarioLibroRepository.save(reserva);
 
-        // 📩 Enviar correo de confirmación
+        // Enviar confirmación por correo
         correoService.enviarCorreo(
             usuario.getEmail(),
             "Reserva de libro confirmada",
-            "Hola " + usuario.getNombre() + ", has reservado el libro \"" + libro.getTitulo() + "\". La fecha de devolución es el " + reserva.getFechaDevolucion() + "."
+            "Hola " + usuario.getNombre() +
+            ", has reservado el libro \"" + libro.getTitulo() +
+            "\". La fecha de devolución es el " + reserva.getFechaDevolucion() + "."
         );
 
         return reservaGuardada;
     }
-    
-    
-    
-    
+
     /**
      * Elimina una reserva de libro por su ID.
+     * - Cambia el estado del libro a DISPONIBLE
+     * - Elimina la reserva
+     * - Envía correo de cancelación
+     *
+     * @param id ID de la reserva a eliminar
      */
     @Override
     public void eliminarReserva(Long id) {
@@ -107,21 +116,28 @@ public class UsuarioLibroServiceImpl implements UsuarioLibroService {
         Libro libro = reserva.getLibro();
         Usuario usuario = reserva.getUsuario();
 
+        // Restaurar estado del libro
         libro.setEstado("DISPONIBLE");
         libroRepository.save(libro);
+
+        // Eliminar reserva
         usuarioLibroRepository.deleteById(id);
 
-        // 📩 Enviar correo de cancelación
+        // Enviar correo de notificación
         correoService.enviarCorreo(
             usuario.getEmail(),
             "Reserva cancelada",
-            "Hola " + usuario.getNombre() + ", tu reserva del libro \"" + libro.getTitulo() + "\" ha sido cancelada."
+            "Hola " + usuario.getNombre() +
+            ", tu reserva del libro \"" + libro.getTitulo() + "\" ha sido cancelada."
         );
     }
 
-
     /**
-     * Obtiene las reservas activas de un usuario con datos del libro.
+     * Obtiene todas las reservas de libros de un usuario, incluyendo los datos del libro.
+     * Usa un JOIN FETCH en el repositorio para evitar el problema de lazy loading.
+     *
+     * @param idUsuario ID del usuario
+     * @return Lista de reservas del usuario
      */
     @Override
     public List<UsuarioLibro> obtenerReservasPorUsuario(Long idUsuario) {

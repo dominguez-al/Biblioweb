@@ -1,6 +1,11 @@
 <h2><lucide-icon name="calendar-days"></lucide-icon>Mis reservas</h2>
 
-<!-- 📚 LIBROS -->
+<!-- Botón para retroceder-->
+<button class="btn-volver" (click)="volverAtras()">
+  <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
+</button>
+
+<!--  LIBROS -->
 <section>
   <h3><lucide-icon name="book-check"></lucide-icon>Libros reservados</h3>
   <div class="reserva-grid-libro">
@@ -14,7 +19,7 @@
   </div>
 </section>
 
-<!-- 🏫 AULAS -->
+<!--  AULAS -->
 <section>
   <h3><lucide-icon name="notebook-pen"></lucide-icon>Aulas reservadas</h3>
   <div class="reserva-grid-aula">

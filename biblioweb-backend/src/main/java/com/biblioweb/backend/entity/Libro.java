@@ -4,37 +4,44 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "libro")
+@Entity // Marca esta clase como una entidad de JPA 
+@Table(name = "libro") // Asocia esta clase con la tabla 'libro' en la base de datos
 public class Libro {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Clave primaria
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Autoincremental 
+    @Column(name = "id_libro")
     private Long idLibro;
 
+    // Atributos principales del libro
     private String titulo;
     private String autor;
     private String genero;
-    private String estado;
-    private LocalDate fechaAltaLibro;
-    private String imagen;
-    private int totalReservas;
+    private String estado; // Ej: "DISPONIBLE", "PRESTADO", "INACTIVO"
+    @Column(name = "fecha_alta_libro")
+    private LocalDate fechaAltaLibro; // Fecha de alta 
+    private String imagen; // URL o path de la imagen asociada
+    @Column(name = "total_reservas")
+    private int totalReservas; // Contador de reservas hechas 
 
-
-    @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY) // Un libro puede tener muchas reservas
+    // Relación uno-a-muchos: un libro puede tener muchas reservas
+    @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY) // Carga perezosa para optimizar el rendimiento
     private List<UsuarioLibro> reservas = new java.util.ArrayList<>();
 
-    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true) //Hacer reseñas de los libros
+    // Relación uno-a-muchos: un libro puede tener muchas reseñas
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resena> resenas;
 
-    
+    // Asigna automáticamente la fecha de alta cuando se guarda el libro por primera vez
     @PrePersist
     protected void onCreate() {
-        this.fechaAltaLibro = LocalDate.now(); // Asigna automáticamente la fecha al crear
+        this.fechaAltaLibro = LocalDate.now();
     }
 
+    // Constructor por defecto requerido por JPA
     public Libro() {}
 
+    // Constructor personalizado (sin lista de reservas ni reseñas)
     public Libro(Long idLibro, String titulo, String autor, String genero, String estado, String imagen, int totalReservas) {
         this.idLibro = idLibro;
         this.titulo = titulo;
@@ -43,10 +50,10 @@ public class Libro {
         this.estado = estado;
         this.imagen = imagen;
         this.totalReservas = totalReservas;
-
     }
 
-    // Getters y Setters
+    // Getters y Setters (acceso a los campos privados)
+
     public Long getIdLibro() {
         return idLibro;
     }
@@ -103,31 +110,27 @@ public class Libro {
         this.reservas = reservas;
     }
 
-	public String getImagen() {
-		return imagen;
-	}
+    public String getImagen() {
+        return imagen;
+    }
 
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 
-	public List<Resena> getResenas() {
-		return resenas;
-	}
+    public List<Resena> getResenas() {
+        return resenas;
+    }
 
-	public void setResenas(List<Resena> resenas) {
-		this.resenas = resenas;
-	}
+    public void setResenas(List<Resena> resenas) {
+        this.resenas = resenas;
+    }
 
-    
-	public int getTotalReservas() {
-	    return totalReservas;
-	}
+    public int getTotalReservas() {
+        return totalReservas;
+    }
 
-	public void setTotalReservas(int totalReservas) {
-	    this.totalReservas = totalReservas;
-	}
-	
-    
+    public void setTotalReservas(int totalReservas) {
+        this.totalReservas = totalReservas;
+    }
 }
-

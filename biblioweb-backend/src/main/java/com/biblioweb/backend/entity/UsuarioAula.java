@@ -3,29 +3,44 @@ package com.biblioweb.backend.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "usuario_aula")
+@Entity // Declara esta clase como una entidad JPA
+@Table(name = "usuario_aula") // La entidad se mapea a la tabla 'usuario_aula'
 public class UsuarioAula {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Clave primaria de la tabla
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental generado por la BD
+    @Column(name = "id_reserva_aula")
     private Long idReservaAula;
 
+    // Relación muchos-a-uno con Usuario: varios registros pueden pertenecer a un mismo usuario
     @ManyToOne
-    @JoinColumn(name = "id_usuario") // FK a Usuario
+    @JoinColumn(name = "id_usuario") // Define la clave foránea hacia la tabla 'usuario'
     private Usuario usuario;
 
+    // Relación muchos-a-uno con Aula: un aula puede estar reservada muchas veces
     @ManyToOne
-    @JoinColumn(name = "id_aula") // FK a Aula
+    @JoinColumn(name = "id_aula") // Define la clave foránea hacia la tabla 'aula'
     private Aula aula;
 
+    // Fecha en la que se reserva el aula
+    @Column(name = "fecha_reserva_aula")
     private LocalDate fechaReservaAula;
+
+    // Fecha prevista o real de devolución del aula
+    @Column(name = "fecha_devolucion_aula")
     private LocalDate fechaDevolucionAula;
 
+    // Constructor por defecto 
     public UsuarioAula() {}
 
-    // Constructor personalizado
-    public UsuarioAula(Long idReservaAula, Usuario usuario, Aula aula, LocalDate fechaReservaAula, LocalDate fechaDevolucionAula) {
+    // Constructor completo (
+    public UsuarioAula(
+        Long idReservaAula,
+        Usuario usuario,
+        Aula aula,
+        LocalDate fechaReservaAula,
+        LocalDate fechaDevolucionAula
+    ) {
         this.idReservaAula = idReservaAula;
         this.usuario = usuario;
         this.aula = aula;
@@ -34,6 +49,7 @@ public class UsuarioAula {
     }
 
     // Getters y Setters
+
     public Long getIdReservaAula() {
         return idReservaAula;
     }
@@ -74,3 +90,4 @@ public class UsuarioAula {
         this.fechaDevolucionAula = fechaDevolucionAula;
     }
 }
+

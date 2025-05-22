@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.biblioweb.backend.service.CorreoService;
-import jakarta.annotation.PostConstruct;
+
 
 
 
@@ -17,105 +17,116 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Controlador encargado de manejar la autenticación (login).
+ * Controlador encargado de manejar la autenticación (login, registro, recuperación de contraseña).
  * Ruta base: /auth
  */
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200") // Permite solicitudes desde el frontend Angular
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // Para buscar usuarios por email
+    private UsuarioRepository usuarioRepository; // Repositorio para acceder a los usuarios
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Para verificar contraseñas encriptadas
+    private PasswordEncoder passwordEncoder; // Codificador de contraseñas (BCrypt)
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil; // Utilidad para generar el token JWT
+    private JwtTokenUtil jwtTokenUtil; // Utilidad para crear tokens JWT
     
     @Autowired
-    private CorreoService correoService; // Recuperar la contraseña por correo
+    private CorreoService correoService; // Servicio para enviar correos
 
     /**
-     * Endpoint para autenticación de usuarios.
+     * Endpoint para autenticar al usuario (login).
      * POST /auth/login
-     * 
-     * @param loginRequest contiene email y password
-     * @return token JWT si las credenciales son correctas
      */
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody LoginRequest loginRequest) {
-    	System.out.println("Login con: " + loginRequest.getEmail());
-    	System.out.println("Contraseña recibida: " + loginRequest.getPassword());
+        // Imprime en consola los datos recibidos (útil para debug)
+        System.out.println("Login con: " + loginRequest.getEmail());
+        System.out.println("Contraseña recibida: " + loginRequest.getPassword());
 
-    	// Busca al usuario por su email
+        // Busca al usuario por su email
         Usuario usuario = usuarioRepository.findByEmail(loginRequest.getEmail());
 
-        // Si no existe o la contraseña no coincide, lanza error
+        // Si no existe el usuario o la contraseña no coincide, lanza error
         if (usuario == null || !passwordEncoder.matches(loginRequest.getPassword(), usuario.getPassword())) {
             throw new RuntimeException("Credenciales inválidas");
         }
-        System.out.println("Hash guardado en BD: " + usuario.getPassword()); 
 
-        // Si es válido, se genera el token JWT con email, rol y nombre
-        String token = jwtTokenUtil.generateToken(usuario.getIdUsuario(), usuario.getEmail(), usuario.getRol(), usuario.getNombre());
-        System.out.println("Hash guardado en BD: " + usuario.getPassword()); 
+        System.out.println("Hash guardado en BD: " + usuario.getPassword());
 
-        // Se devuelve el token en un Map con clave "token"
+        // Genera un token JWT con los datos del usuario
+        String token = jwtTokenUtil.generateToken(
+            usuario.getIdUsuario(), 
+            usuario.getEmail(), 
+            usuario.getRol(), 
+            usuario.getNombre()
+        );
+
+        // Devuelve el token dentro de un Map
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         return response;
     }
     
     /**
-     * Registro de nuevos usuarios.
-     * POST /auth/register
+     * Endpoint para registrar un nuevo usuario.
+     * POST /auth/registro
      */
     @PostMapping("/registro")
     public String registro(@RequestBody Usuario nuevoUsuario) {
         System.out.println("Registrando: " + nuevoUsuario.getEmail());
 
-        // Verificamos si ya existe un usuario con ese email
+        // Verifica si ya existe un usuario con ese email
         if (usuarioRepository.findByEmail(nuevoUsuario.getEmail()) != null) {
             throw new RuntimeException("El email ya está registrado");
         }
 
-        // Encriptamos la contraseña antes de guardar
+        // Encripta la contraseña antes de guardar
         nuevoUsuario.setPassword(passwordEncoder.encode(nuevoUsuario.getPassword()));
 
-        // Asignamos rol USER por defecto
+        // Si no tiene rol definido, asigna "USER" por defecto
         if (nuevoUsuario.getRol() == null || nuevoUsuario.getRol().isBlank()) {
             nuevoUsuario.setRol("USER");
         }
 
-
-        // Guardamos el usuario en la base de datos
+        // Guarda el usuario en la base de datos
         usuarioRepository.save(nuevoUsuario);
 
-        // 📩 Enviar correo de bienvenida
+        // Envía un correo de bienvenida
         correoService.enviarCorreo(
             nuevoUsuario.getEmail(),
             "🎉 Bienvenido a BiblioWeb",
-            "Hola " + nuevoUsuario.getNombre() + ", gracias por registrarte en BiblioWeb.\n\nYa podés reservar aulas y libros cuando quieras."
+            "Hola " + nuevoUsuario.getNombre() + 
+            ", gracias por registrarte en BiblioWeb.\n\nYa podés reservar aulas y libros cuando quieras."
         );
 
         return "Usuario registrado correctamente";
     }
 
-    
+    /**
+     * Endpoint para iniciar el proceso de recuperación de contraseña.
+     * POST /auth/recuperar
+     */
     @PostMapping("/recuperar")
     public String solicitarRecuperacion(@RequestParam String email) {
+        // Busca al usuario por su email
         Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null) {
             throw new RuntimeException("No existe usuario con ese email");
         }
 
+        // Genera un token único para recuperación
         String token = UUID.randomUUID().toString();
         usuario.setResetToken(token);
         usuarioRepository.save(usuario);
 
+        // Crea un link de recuperación (puede cambiar según frontend/backend)
         String link = "http://localhost:8080/auth/restablecer?token=" + token;
+
+        // Envía el correo con el enlace
         correoService.enviarCorreo(
             usuario.getEmail(),
             "Recuperación de contraseña",
@@ -124,21 +135,24 @@ public class AuthController {
 
         return "Enlace de recuperación enviado al correo";
     }
-    
+
+    /**
+     * Endpoint para restablecer la contraseña mediante el token enviado por correo.
+     * POST /auth/restablecer
+     */
     @PostMapping("/restablecer")
     public String restablecerPassword(@RequestParam String token, @RequestParam String nuevaPassword) {
+        // Busca al usuario por el token de recuperación
         Usuario usuario = usuarioRepository.findByResetToken(token);
         if (usuario == null) {
             throw new RuntimeException("Token inválido o expirado");
         }
 
+        // Actualiza la contraseña (encriptada) y limpia el token
         usuario.setPassword(passwordEncoder.encode(nuevaPassword));
         usuario.setResetToken(null); // Se elimina el token para que no se reutilice
         usuarioRepository.save(usuario);
 
         return "Contraseña restablecida correctamente";
     }
-    
-
-    
 }

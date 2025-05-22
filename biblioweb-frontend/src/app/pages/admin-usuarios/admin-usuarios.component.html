@@ -1,19 +1,29 @@
-<!-- 🔵 Título principal -->
+<!-- Título principal -->
 <div class="titulo-seccion">
-  <lucide-icon name="user-search"></lucide-icon><h2>Gestión de Usuarios</h2>
+  <lucide-icon name="user-search"></lucide-icon>
+  <h2>Gestión de Usuarios</h2>
 </div>
 
-<!-- 🟡 Botón para mostrar el formulario -->
+<!-- Botón para retroceder-->
+<button class="btn-volver" (click)="volverAtras()">
+  <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
+</button>
+
+
+<!-- Botón para mostrar el formulario -->
 <div class="center-button" *ngIf="!formVisible">
-  <button class="crear-usuario-btn" (click)="mostrarFormularioCrear()"><lucide-icon name="user-plus"></lucide-icon>Crear Usuario</button>
+  <button class="crear-usuario-btn" (click)="mostrarFormularioCrear()">
+    <lucide-icon name="user-plus"></lucide-icon>Crear Usuario
+  </button>
 </div>
 
-<!-- 🟢 Formulario de creación / edición -->
+<!-- Formulario de creación / edición -->
 <div class="subtitulo" *ngIf="formVisible">
   {{ modoEdicion ? 'Editar Usuario' : 'Agregar Nuevo Usuario' }}
 </div>
 
 <form *ngIf="formVisible" (ngSubmit)="modoEdicion ? actualizarUsuario() : crearUsuario()" #formUsuario="ngForm">
+  <!-- Nombre -->
   <div class="form-group">
     <input
       type="text"
@@ -22,13 +32,14 @@
       placeholder="Nombre"
       required
       #nombre="ngModel"
-      [class.invalid]="nombre.invalid && nombre.touched"
+      [class.invalid]="formularioIntentado && nombre.invalid"
     />
-    <div class="error-msg" *ngIf="nombre.invalid && nombre.touched">
+    <div class="error-msg" *ngIf="formularioIntentado && nombre.errors?.['required']">
       El nombre es obligatorio.
     </div>
   </div>
 
+  <!-- Email -->
   <div class="form-group">
     <input
       type="email"
@@ -36,40 +47,68 @@
       [(ngModel)]="nuevoUsuario.email"
       placeholder="Email"
       required
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
       #email="ngModel"
-      [class.invalid]="email.invalid && email.touched"
+      [class.invalid]="formularioIntentado && email.invalid"
     />
-    <div class="error-msg" *ngIf="email.invalid && email.touched">
-      El email es obligatorio y debe tener un formato válido.
+    <div class="error-msg" *ngIf="formularioIntentado && email.errors?.['required']">
+      El email es obligatorio.
+    </div>
+    <div class="error-msg" *ngIf="formularioIntentado && email.errors?.['pattern']">
+      El email no tiene un formato válido.
     </div>
   </div>
 
+  <!-- Rol -->
   <div class="form-group">
+    <select
+      name="rol"
+      [(ngModel)]="nuevoUsuario.rol"
+      required
+      #rol="ngModel"
+      [class.invalid]="formularioIntentado && rol.invalid"
+    >
+      <option [value]="''" disabled>Selecciona un rol</option>
+      <option value="USER">Usuario</option>
+      <option value="ADMIN">Administrador</option>
+    </select>
+    <div class="error-msg" *ngIf="formularioIntentado && rol.errors?.['required']">
+      El rol es obligatorio.
+    </div>
+  </div>
+
+  <!-- Contraseña (solo al crear) -->
+  <div class="form-group" *ngIf="!modoEdicion">
     <input
       type="password"
       name="password"
       [(ngModel)]="nuevoUsuario.password"
       placeholder="Contraseña"
       required
+      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\w\d\s]).{8,}$"
       #password="ngModel"
-      [class.invalid]="password.invalid && password.touched"
+      [class.invalid]="formularioIntentado && password.invalid"
     />
-    <div class="error-msg" *ngIf="password.invalid && password.touched">
+    <div class="error-msg" *ngIf="formularioIntentado && password.errors?.['required']">
       La contraseña es obligatoria.
+    </div>
+    <div class="error-msg" *ngIf="formularioIntentado && password.errors?.['pattern']">
+      La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.
     </div>
   </div>
 
+  <!-- Botones -->
   <div class="botones-formulario">
-    <button type="submit" [disabled]="formUsuario.invalid">
+    <button type="submit">
       {{ modoEdicion ? 'Actualizar' : 'Agregar Usuario' }}
     </button>
     <button type="button" (click)="cancelarEdicion()">Cancelar</button>
   </div>
 </form>
 
-
-<!-- 🔷 Tabla de usuarios -->
-<div class="subtitulo"><lucide-icon name="user-pen"></lucide-icon>
+<!-- Tabla de usuarios -->
+<div class="subtitulo">
+  <lucide-icon name="user-pen"></lucide-icon>
   Lista de Usuarios
 </div>
 
@@ -79,19 +118,20 @@
       <th>ID</th>
       <th>Nombre</th>
       <th>Email</th>
+      <th>Rol</th>
       <th>Acciones</th>
     </tr>
   </thead>
-<tbody>
-  <tr *ngFor="let usuario of usuarios">
-    <td data-label="ID">{{ usuario.id }}</td>
-    <td data-label="Nombre">{{ usuario.nombre }}</td>
-    <td data-label="Email">{{ usuario.email }}</td>
-    <td data-label="Acciones">
-      <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
-      <button class="eliminar-btn" (click)="eliminarUsuario(usuario.id!)">Eliminar</button>
-    </td>
-  </tr>
-</tbody>
-
+  <tbody>
+    <tr *ngFor="let usuario of usuarios">
+      <td data-label="ID">{{ usuario.id }}</td>
+      <td data-label="Nombre">{{ usuario.nombre }}</td>
+      <td data-label="Email">{{ usuario.email }}</td>
+      <td data-label="Rol">{{ usuario.rol }}</td>
+      <td data-label="Acciones">
+        <button class="editar-btn" (click)="editarUsuario(usuario)">Editar</button>
+        <button class="eliminar-btn" (click)="eliminarUsuario(usuario.id!)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
 </table>

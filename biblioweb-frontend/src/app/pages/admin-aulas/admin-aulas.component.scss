@@ -30,6 +30,34 @@
   margin: 0;
 }
 
+/* Boton volver */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  gap: 8px; /* espacio entre icono y texto */
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-volver lucide-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block; /* Asegura que se alinee bien */
+  vertical-align: middle;
+}
+
 /* ===== SUBTÍTULO ===== */
 .subtitulo {
   display: flex;
@@ -80,6 +108,26 @@ tr:hover td {
   background-color: #e8f0ff;
 }
 
+  .cancelar-btn {
+    display: block;
+    margin: auto;
+    width: 90%;
+    max-width: 300px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .cancelar-btn:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+  }
+
 /* ===== RESPONSIVE TABLE ===== */
 @media (max-width: 768px) {
   table,
@@ -89,7 +137,6 @@ tr:hover td {
   td,
   tr {
     display: block;
-    width: 100%;
   }
 
   thead {
@@ -122,23 +169,5 @@ tr:hover td {
     font-size: 0.9rem;
   }
 
-  .cancelar-btn {
-    display: block;
-    margin: 1rem auto 0 auto;
-    width: 90%;
-    max-width: 300px;
-    padding: 12px 16px;
-    font-size: 1rem;
-    border-radius: 8px;
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    text-align: center;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
 
-  .cancelar-btn:hover {
-    background-color: #138496;
-    transform: translateY(-2px);
-  }
 }

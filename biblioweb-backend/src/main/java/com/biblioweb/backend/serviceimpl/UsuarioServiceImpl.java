@@ -2,7 +2,6 @@ package com.biblioweb.backend.serviceimpl;
 
 import com.biblioweb.backend.entity.Usuario;
 import com.biblioweb.backend.repository.UsuarioRepository;
-import com.biblioweb.backend.service.CorreoService;
 import com.biblioweb.backend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,23 +11,20 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementación de UsuarioService.
- * Maneja la lógica de negocio para la entidad Usuario.
+ * Implementación del servicio de Usuario.
+ * Gestiona operaciones como registro, edición, consulta y eliminación de usuarios.
  */
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository; // Acceso a la tabla de usuarios
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private CorreoService correoService; // Servicio de envío de correos
+    private PasswordEncoder passwordEncoder; // Codificación segura de contraseñas
 
     /**
-     * Devuelve todos los usuarios registrados.
+     * Devuelve todos los usuarios almacenados.
      */
     @Override
     public List<Usuario> listarUsuarios() {
@@ -37,6 +33,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     /**
      * Busca un usuario por su ID.
+     * @param id ID del usuario
+     * @return Optional con el usuario si existe
      */
     @Override
     public Optional<Usuario> obtenerUsuarioPorId(Long id) {
@@ -45,62 +43,56 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     /**
      * Guarda un nuevo usuario.
-     * - Codifica la contraseña
-     * - Asigna rol por defecto
-     * - Envía un correo de bienvenida
+     * - Codifica la contraseña con BCrypt
+     * - Asigna rol "USER" si no se especifica
      */
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
-        // Verificamos que la contraseña no sea nula o vacía
+        // Validación: la contraseña no puede estar vacía
         if (usuario.getPassword() == null || usuario.getPassword().isBlank()) {
             throw new IllegalArgumentException("La contraseña no puede estar vacía");
         }
 
-        // Codificamos la contraseña antes de guardar
+        // Encriptar contraseña antes de guardar
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
-        // Asignamos rol si no está definido
-        if (usuario.getRol() == null) {
+        // Asignar rol por defecto si no se especifica
+        if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("USER");
         }
 
-        Usuario guardado = usuarioRepository.save(usuario);
 
-        // Enviamos correo de bienvenida
-       /* correoService.enviarCorreo(
-            guardado.getEmail(),
-            "Bienvenido a Biblioweb",
-            "¡Hola " + guardado.getNombre() + "!\n\nTu cuenta ha sido creada con éxito. 🎉"
-        );*/
-
-        return guardado;
+        // Guardar usuario en BD
+        return usuarioRepository.save(usuario);
     }
 
-
     /**
-     * Actualiza un usuario existente usando su ID.
+     * Actualiza los campos editables de un usuario existente.
+     * - No cambia contraseña por seguridad.
+     * @param id ID del usuario a actualizar
+     * @param usuarioActualizado objeto con nuevos valores
+     * @return Usuario actualizado
      */
     @Override
     public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
         Usuario existente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
 
-        // Solo actualizas los campos editables
+        // Campos actualizables (sin afectar contraseña)
         existente.setNombre(usuarioActualizado.getNombre());
         existente.setEmail(usuarioActualizado.getEmail());
+        existente.setRol(usuarioActualizado.getRol());
 
-        // ⚠️ No cambies la contraseña aquí a menos que explícitamente se quiera
         return usuarioRepository.save(existente);
     }
 
-    
-    
-
     /**
      * Elimina un usuario por su ID.
+     * @param id identificador del usuario
      */
     @Override
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 }
+

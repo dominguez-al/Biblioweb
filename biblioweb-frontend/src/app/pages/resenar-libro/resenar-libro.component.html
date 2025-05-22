@@ -2,6 +2,11 @@
   <h2>Reseñas</h2>
 </div>
 
+<!-- Botón para retroceder-->
+<button class="btn-volver" (click)="volverAtras()">
+Volver
+</button>
+
 <p *ngIf="mensaje">{{ mensaje }}</p>
 
 <form (submit)="enviarResena(); $event.preventDefault()">
@@ -22,3 +27,7 @@
 
   <button type="submit">Enviar reseña</button>
 </form>
+
+<!-- Espaciador al final -->
+<div class="espaciador"></div>
+

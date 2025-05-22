@@ -22,13 +22,13 @@ export class LibroDetalleModalComponent {
     private reservaService: ReservaLibroService,
     private dialog: MatDialog
   ) {
-    console.log('🧩 Libro recibido en el modal:', libro);
-console.log('📌 ID del libro:', libro.idLibro);
+    //console.log(' Libro recibido en el modal:', libro);
+    //console.log(' ID del libro:', libro.idLibro);
 
   }
 
 reservarLibro() {
-  console.log('🟡 Click en reservarLibro()');
+  //console.log(' Click en reservarLibro()');
 
   if (!this.tokenService.isLoggedIn()) {
     this.dialogRef.close();
@@ -39,10 +39,10 @@ reservarLibro() {
     return;
   }
 
-  const idUsuario = this.tokenService.getUserId();
+  const idUsuario = this.tokenService.getUsuarioId();
   const idLibro = this.libro.idLibro;
 
-  console.log('📦 Datos para reserva:', { idUsuario, idLibro });
+  //console.log(' Datos para reserva:', { idUsuario, idLibro });
 
   if (!idUsuario || !idLibro) {
     Swal.fire('Datos faltantes', 'No se pudo obtener la información necesaria.', 'warning');
@@ -58,19 +58,16 @@ reservarLibro() {
   this.reservaService.reservar({ idUsuario, idLibro }).subscribe({
     next: () => {
       this.libro.estado = 'RESERVADO';
-      Swal.fire('¡Éxito!', '📚 Reserva realizada correctamente.', 'success').then(() => {
+      Swal.fire('¡Éxito!', 'Reserva realizada correctamente.', 'success').then(() => {
         this.dialogRef.close(true);
       });
     },
     error: (err) => {
-      console.error('❌ Error al reservar libro:', err);
-      Swal.fire('Error', '❌ No se pudo realizar la reserva.', 'error');
+      console.error(' Error al reservar libro:', err);
+      Swal.fire('Error', ' No se pudo realizar la reserva.', 'error');
     }
   });
 }
-
-
-
 
 
   cerrar() {

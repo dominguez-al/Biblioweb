@@ -1,7 +1,7 @@
 .modal-detalle-libro {
   padding: 2rem;
   max-width: 500px;
-  margin: auto;
+
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -81,3 +81,24 @@
     }
   }
 }
+
+@media (max-width: 780px) {
+  .modal-detalle-libro {
+    max-width: 85vw;       // más estrecho
+    padding: 1rem;         // menos espacio interno
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    .libro-img {
+      max-height: 200px;   // más chica la imagen
+    }
+
+    .acciones .btn-reservar {
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+    }
+  }
+}
+

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservaAulaService } from '../../services/reserva-aula.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +13,9 @@ import Swal from 'sweetalert2';
 export class AdminAulasComponent implements OnInit {
   reservasAulas: any[] = [];
 
-  constructor(private reservaAulaService: ReservaAulaService) {}
+  constructor(private reservaAulaService: ReservaAulaService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.cargarReservas();
@@ -23,6 +26,10 @@ export class AdminAulasComponent implements OnInit {
       this.reservasAulas = data;
     });
   }
+
+volverAtras(): void {
+  this.router.navigate(['/usuario-logueado']);
+}
 
 cancelarReserva(id: number): void {
   if (!id) {

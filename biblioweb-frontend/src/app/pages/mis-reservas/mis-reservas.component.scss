@@ -1,3 +1,6 @@
+
+
+
 /* ESTILOS BASE */
 h2, h3 {
   display: inline-block;
@@ -30,6 +33,35 @@ h3 {
   font-size: 1.4rem;
   font-weight: 600;
   margin-left: 1rem;
+}
+
+/* Boton volver */
+.btn-volver {
+  margin-left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  gap: 8px; /* espacio entre icono y texto */
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-volver lucide-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block; /* Asegura que se alinee bien */
+  vertical-align: middle;
 }
 
 /* LIBROS */

@@ -11,50 +11,61 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RestController // Define esta clase como un controlador REST
-@RequestMapping("/aulas") // Prefijo de URL para todas las rutas relacionadas con aulas
+//Anotación que marca esta clase como un controlador REST de Spring
+@RestController 
+
+//Prefijo común para todas las rutas de este controlador: /aulas
+@RequestMapping("/aulas") 
 public class AulaController {
 
-    @Autowired
-    private AulaService aulaService;
+ // Inyección del servicio que maneja la lógica de negocio de aulas
+ @Autowired
+ private AulaService aulaService;
 
-    @GetMapping("/listar") // GET /aulas/listar
-    public List<AulaVO> listarAulas() {
-        // Convierte todas las entidades Aula a sus respectivos VO y devuelve la lista
-        return aulaService.listarAulas()
-                .stream()
-                .map(AulaMapper::toVO)
-                .collect(Collectors.toList());
-    }
+ // Endpoint para obtener la lista de aulas: GET /aulas/listar
+ @GetMapping("/listar")
+ public List<AulaVO> listarAulas() {
+     // Llama al servicio para obtener todas las aulas,
+     // las convierte a objetos VO (Vista/DTO) y devuelve la lista
+     return aulaService.listarAulas()
+             .stream()
+             .map(AulaMapper::toVO) // Convierte cada entidad Aula a AulaVO
+             .collect(Collectors.toList());
+ }
 
-    @GetMapping("/ver/{id}") // GET /aulas/ver/{id}
-    public AulaVO obtenerAula(@PathVariable Long id) {
-        // Busca un aula por su ID, la transforma en VO y la devuelve
-        Optional<Aula> aulaOpt = aulaService.obtenerAulaPorId(id);
-        return aulaOpt.map(AulaMapper::toVO)
-                      .orElseThrow(() -> new RuntimeException("Aula no encontrada"));
-    }
+ // Endpoint para obtener una aula por su ID: GET /aulas/ver/{id}
+ @GetMapping("/ver/{id}")
+ public AulaVO obtenerAula(@PathVariable Long id) {
+     // Busca el aula en la base de datos. Si no existe, lanza una excepción.
+     Optional<Aula> aulaOpt = aulaService.obtenerAulaPorId(id);
+     return aulaOpt.map(AulaMapper::toVO)
+                   .orElseThrow(() -> new RuntimeException("Aula no encontrada"));
+ }
 
-    @PostMapping("/crear") // POST /aulas/crear
-    public AulaVO crearAula(@RequestBody AulaVO vo) {
-        // Convierte el VO recibido en una entidad Aula, lo guarda y devuelve el VO del aula creada
-        Aula aula = AulaMapper.toEntity(vo);
-        Aula guardada = aulaService.guardarAula(aula);
-        return AulaMapper.toVO(guardada);
-    }
+ // Endpoint para crear una nueva aula: POST /aulas/crear
+ @PostMapping("/crear")
+ public AulaVO crearAula(@RequestBody AulaVO vo) {
+     // Convierte el VO recibido desde el cliente a una entidad,
+     // guarda el aula en la base de datos y devuelve el resultado como VO
+     Aula aula = AulaMapper.toEntity(vo);
+     Aula guardada = aulaService.guardarAula(aula);
+     return AulaMapper.toVO(guardada);
+ }
 
-    @PutMapping("/actualizar/{id}") // PUT /aulas/actualizar/{id}
-    public AulaVO actualizarAula(@PathVariable Long id, @RequestBody AulaVO vo) {
-        // Asegura que el ID es el correcto, convierte el VO a entidad y lo actualiza
-        Aula aula = AulaMapper.toEntity(vo);
-        aula.setIdAula(id);
-        Aula actualizada = aulaService.actualizarAula(aula);
-        return AulaMapper.toVO(actualizada);
-    }
+ // Endpoint para actualizar una aula existente: PUT /aulas/actualizar/{id}
+ @PutMapping("/actualizar/{id}")
+ public AulaVO actualizarAula(@PathVariable Long id, @RequestBody AulaVO vo) {
+     // Asigna el ID al objeto convertido y realiza la actualización
+     Aula aula = AulaMapper.toEntity(vo);
+     aula.setIdAula(id); // Se asegura de que el ID de la entidad coincida con el de la URL
+     Aula actualizada = aulaService.actualizarAula(aula);
+     return AulaMapper.toVO(actualizada);
+ }
 
-    @DeleteMapping("/borrar/{id}") // DELETE /aulas/borrar/{id}
-    public void eliminarAula(@PathVariable Long id) {
-        aulaService.eliminarAula(id);
-    }
+ // Endpoint para eliminar un aula por su ID: DELETE /aulas/borrar/{id}
+ @DeleteMapping("/borrar/{id}")
+ public void eliminarAula(@PathVariable Long id) {
+     // Llama al servicio para eliminar el aula
+     aulaService.eliminarAula(id);
+ }
 }
-

@@ -40,7 +40,7 @@ export class HeaderComponent {
   cerrarSesion() {
     this.tokenService.logout();
     this.menuAbierto = false;
-    this.router.navigate(['/']); // También podrías usar Router.navigate(['/']);
+    this.router.navigate(['/']);
   }
 
   @HostListener('document:click', ['$event'])

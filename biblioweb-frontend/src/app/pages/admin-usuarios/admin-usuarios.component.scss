@@ -5,6 +5,37 @@
   margin: 0 auto;
 }
 
+/* Boton volver */
+.btn-volver {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  gap: 8px; /* espacio entre icono y texto */
+}
+
+.btn-volver:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-volver lucide-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block; /* Asegura que se alinee bien */
+  vertical-align: middle;
+}
+
+
+
+
 /* Título */
 .titulo-seccion {
   display: flex;
@@ -207,14 +238,22 @@ lucide-icon {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .btn-volver {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem auto; /* 🔥 Añade espacio arriba y abajo */
+  }
+
   form {
     flex-direction: column;
     align-items: center;
   }
+
   .botones-formulario {
     flex-direction: column;
     align-items: center;
   }
+
   table,
   thead,
   tbody,
@@ -223,9 +262,11 @@ lucide-icon {
   tr {
     display: block;
   }
+
   thead {
     display: none;
   }
+
   tr {
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -233,15 +274,18 @@ lucide-icon {
     padding: 10px;
     background-color: #f1f1f1;
   }
+
   td {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 10px 15px;
     border: none;
   }
+
   td::before {
     content: attr(data-label);
     font-weight: bold;
     color: #333;
   }
 }
+

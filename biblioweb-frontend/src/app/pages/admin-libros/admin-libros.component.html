@@ -2,7 +2,12 @@
   <lucide-icon name="folder-kanban"></lucide-icon><h2>Gestión de Libros</h2>
 </div>
 
-<!-- ✅ Formulario para agregar nuevos libros -->
+<!-- Botón para retroceder-->
+<button class="btn-volver" (click)="volverAtras()">
+  <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
+</button>
+
+<!--  Formulario para agregar nuevos libros -->
 <div class="subtitulo"><lucide-icon name="book-plus"></lucide-icon>Agregar Nuevo Libro</div>
 <form (ngSubmit)="crearLibro()" #formLibro="ngForm">
   <input type="text" name="titulo" [(ngModel)]="nuevoLibro.titulo" placeholder="Título" required />
@@ -19,7 +24,7 @@
 </form>
 
 
-<!-- 🔵 Tabla de todos los libros -->
+<!--  Tabla de todos los libros -->
 <div class="subtitulo"><lucide-icon name="book-key"></lucide-icon>Todos los Libros</div>
 <table>
   <thead>

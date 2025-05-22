@@ -54,7 +54,7 @@ h2 {
 .fecha-input {
   margin: 0.8rem 0;
   padding: 0.6rem 1rem;
-  width: 100%;
+  width: 90%;
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 0.95rem;
@@ -106,6 +106,10 @@ button.disabled {
   box-shadow: 0 2px 6px rgba(216, 0, 12, 0.1);
 }
 
+.espaciador {
+  height: 280px; /* O más si es necesario */
+}
+
 @media (max-width: 768px) {
   h2 {
     font-size: 1.8rem;
@@ -122,8 +126,8 @@ button.disabled {
   }
 
   .aula-card {
-    width: 90%;
-    padding: 1.2rem;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   .aula-card h3 {

@@ -6,24 +6,32 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-@Service
+/**
+ * Servicio para el envío de correos electrónicos.
+ * Utiliza JavaMailSender y se ejecuta de forma asíncrona para no bloquear el hilo principal.
+ */
+@Service // Componente de servicio gestionado por Spring
 public class CorreoService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender mailSender; // Cliente de envío de correos configurado en application.properties
 
     /**
-     * Envía un correo simple de forma asíncrona.
-     * @param para destinatario
-     * @param asunto asunto del correo
-     * @param cuerpo cuerpo del mensaje
+     * Envía un correo electrónico simple (sin HTML) de manera asíncrona.
+     *
+     * @param para    Dirección de correo del destinatario
+     * @param asunto  Asunto del mensaje
+     * @param cuerpo  Texto del mensaje
      */
-    @Async
+    @Async // Permite que el envío se ejecute en segundo plano sin bloquear el flujo principal
     public void enviarCorreo(String para, String asunto, String cuerpo) {
+        // Crear mensaje de texto plano
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(para);
         mensaje.setSubject(asunto);
         mensaje.setText(cuerpo);
+
+        // Enviar el mensaje
         mailSender.send(mensaje);
     }
 }

@@ -3,6 +3,7 @@ import { LibroService, Libro } from '../../services/libro.service';
 import { TokenService } from '../../services/token.service';
 import { ResenarService } from '../../services/resenar.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class ResenarLibroComponent implements OnInit {
   constructor(
     private libroService: LibroService,
     private resenarService: ResenarService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,11 @@ export class ResenarLibroComponent implements OnInit {
       this.libros = data;
     });
   }
+
+volverAtras(): void {
+  this.router.navigate(['/usuario-logueado']);
+}
+
 
 enviarResena() {
   const email = this.tokenService.getEmail();
