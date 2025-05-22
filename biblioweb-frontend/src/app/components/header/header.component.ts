@@ -1,9 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 import { LoginModalComponent } from '../../modals/login-modal/login-modal.component';
 import { RegistroModalComponent } from '../../modals/registro-modal/registro-modal.component';
 import { TokenService } from '../../services/token.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,31 +21,36 @@ export class HeaderComponent {
     private router: Router
   ) {}
 
-  abrirLogin() {
+  // Abre modal de inicio de sesión
+  abrirLogin(): void {
     this.dialog.open(LoginModalComponent, {
       width: '500px',
       panelClass: 'login-dialog'
     });
   }
 
-  abrirRegistro() {
+  // Abre modal de registro
+  abrirRegistro(): void {
     this.dialog.open(RegistroModalComponent, {
       width: '500px'
     });
   }
 
-  toggleMenu() {
+  // Alterna visibilidad del menú de usuario
+  toggleMenu(): void {
     this.menuAbierto = !this.menuAbierto;
   }
 
-  cerrarSesion() {
+  // Cierra sesión y redirige a inicio
+  cerrarSesion(): void {
     this.tokenService.logout();
     this.menuAbierto = false;
     this.router.navigate(['/']);
   }
 
+  // Cierra el menú si se hace clic fuera del avatar
   @HostListener('document:click', ['$event'])
-  handleClickFuera(event: Event) {
+  handleClickFuera(event: Event): void {
     const target = event.target as HTMLElement;
     const clickDentro = target.closest('.avatar-wrapper');
     if (!clickDentro) {

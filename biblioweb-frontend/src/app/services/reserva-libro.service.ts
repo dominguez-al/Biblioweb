@@ -21,11 +21,11 @@ export interface Reserva {
   providedIn: 'root'
 })
 export class ReservaLibroService {
-
   private apiUrl = 'http://localhost:8080/reservas-libros';
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  // Retorna los headers necesarios con el token JWT
   private getAuthHeaders(): HttpHeaders {
     const token = this.tokenService.getToken();
     return new HttpHeaders({
@@ -33,12 +33,14 @@ export class ReservaLibroService {
     });
   }
 
+  // Realiza una reserva de libro
   reservar(payload: { idUsuario: number; idLibro: number }): Observable<any> {
     return this.http.post(`${this.apiUrl}/crear`, payload, {
       headers: this.getAuthHeaders()
     });
   }
 
+  // Obtiene las reservas realizadas por un usuario
   obtenerReservasUsuario(idUsuario: number): Observable<Reserva[]> {
     return this.http.get<Reserva[]>(`${this.apiUrl}/mis-reservas`, {
       params: { idUsuario },
@@ -46,6 +48,7 @@ export class ReservaLibroService {
     });
   }
 
+  // Cancela una reserva de libro por su ID
   cancelarReserva(idReserva: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/borrar/${idReserva}`, {
       headers: this.getAuthHeaders()

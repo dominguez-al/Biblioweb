@@ -1,18 +1,22 @@
+<!-- Título de la sección -->
 <div class="titulo-seccion">
   <lucide-icon name="table"></lucide-icon>
   <h2>Gestión de Reservas de Aulas</h2>
 </div>
 
-<!-- Botón para retroceder-->
+<!-- Botón para volver atrás -->
 <button class="btn-volver" (click)="volverAtras()">
-  <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
+  <lucide-icon name="circle-arrow-left"></lucide-icon>
+  Volver
 </button>
 
+<!-- Subtítulo -->
 <div class="subtitulo">
   <lucide-icon name="list"></lucide-icon>
   Reservas Activas
 </div>
 
+<!-- Tabla de reservas -->
 <table>
   <thead>
     <tr>
@@ -25,16 +29,15 @@
   </thead>
   <tbody>
     <tr *ngFor="let reserva of reservasAulas">
-      <td data-label="Nombre">{{ reserva.nombreAula }}</td>
-      <td data-label="Fecha">{{ reserva.fechaReservaAula | date: 'dd/MM/yyyy' }}</td>
-      <td data-label="Id Usuario">{{ reserva.idUsuario }}</td>
-      <td data-label="Reservado por">{{ reserva.reservadoPor }}</td>
+      <td data-label="Nombre Aula">{{ reserva.nombreAula }}</td>
+      <td data-label="Fecha Reserva">{{ reserva.fechaReservaAula | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="ID Usuario">{{ reserva.idUsuario }}</td>
+      <td data-label="Reservado Por">{{ reserva.reservadoPor }}</td>
       <td>
-  <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
-    Cancelar Reserva
-  </button>
-</td>
+        <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
+          Cancelar Reserva
+        </button>
+      </td>
     </tr>
-
   </tbody>
 </table>

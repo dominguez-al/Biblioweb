@@ -25,7 +25,6 @@ export interface ReservaLibro {
   imagen: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -34,6 +33,7 @@ export class LibroService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  // Obtener headers con token JWT para autenticación
   private getAuthHeaders(): HttpHeaders {
     const token = this.tokenService.getToken();
     return new HttpHeaders({
@@ -41,47 +41,53 @@ export class LibroService {
     });
   }
 
+  // Obtener todos los libros disponibles
   obtenerLibros(): Observable<Libro[]> {
     return this.http.get<Libro[]>(`${this.apiUrl}/listar`);
   }
 
+  // Obtener un libro específico por ID
   obtenerLibro(id: number): Observable<Libro> {
     return this.http.get<Libro>(`${this.apiUrl}/ver/${id}`);
   }
 
+  // Obtener todas las reservas de libros (admin)
   obtenerReservas(): Observable<ReservaLibro[]> {
-  return this.http.get<ReservaLibro[]>(
-    `http://localhost:8080/reservas-libros/listar`,
-    { headers: this.getAuthHeaders() }
-  );
-}
+    return this.http.get<ReservaLibro[]>(
+      `http://localhost:8080/reservas-libros/listar`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
+  // Crear un nuevo libro
   crearLibro(libro: Libro): Observable<Libro> {
     return this.http.post<Libro>(`${this.apiUrl}/crear`, libro, {
       headers: this.getAuthHeaders()
     });
   }
 
+  // Actualizar un libro existente
   actualizarLibro(id: number, libro: Libro): Observable<Libro> {
     return this.http.put<Libro>(`${this.apiUrl}/actualizar/${id}`, libro, {
       headers: this.getAuthHeaders()
     });
   }
 
-obtenerUltimosLibros(): Observable<Libro[]> {
-  return this.http.get<Libro[]>(`${this.apiUrl}/ultimos`, {
-    headers: this.getAuthHeaders()
-  });
-}
+  // Obtener los últimos libros añadidos
+  obtenerUltimosLibros(): Observable<Libro[]> {
+    return this.http.get<Libro[]>(`${this.apiUrl}/ultimos`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 
-
-
+  // Eliminar un libro por ID
   eliminarLibro(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/borrar/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
 
+  // Cancelar una reserva de libro
   cancelarReserva(id: number): Observable<void> {
     return this.http.delete<void>(
       `http://localhost:8080/reservas-libros/borrar/${id}`,
@@ -89,11 +95,10 @@ obtenerUltimosLibros(): Observable<Libro[]> {
     );
   }
 
+  // Obtener libros más reservados (populares)
   obtenerLibrosPopulares(): Observable<Libro[]> {
-  return this.http.get<Libro[]>(`${this.apiUrl}/populares`, {
-    headers: this.getAuthHeaders()
-  });
-}
-
-
+    return this.http.get<Libro[]>(`${this.apiUrl}/populares`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LibroService, Libro } from '../../services/libro.service';
 import { MatDialog } from '@angular/material/dialog';
+
+import { LibroService, Libro } from '../../services/libro.service';
 import { LibroDetalleModalComponent } from '../../modals/libro-detalle-modal/libro-detalle-modal.component';
 
 @Component({
@@ -22,44 +22,45 @@ export class CatalogoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cargarLibros();
+  }
+
+  // Carga inicial de libros y géneros únicos
+  private cargarLibros(): void {
     this.libroService.obtenerLibros().subscribe(data => {
       this.libros = data;
       this.librosFiltrados = data;
-      this.generosDisponibles = [...new Set(data.map(libro => libro.genero))]; // extrae géneros únicos
+      this.generosDisponibles = [...new Set(data.map(libro => libro.genero))];
     });
   }
 
+  // Filtro por género desde el select
   filtrarPorGenero(): void {
-    if (this.generoSeleccionado === '') {
-      this.librosFiltrados = this.libros;
-    } else {
-      this.librosFiltrados = this.libros.filter(
-        libro => libro.genero === this.generoSeleccionado
-      );
-    }
+    this.librosFiltrados = this.generoSeleccionado
+      ? this.libros.filter(libro => libro.genero === this.generoSeleccionado)
+      : this.libros;
   }
 
+  // Abre el modal con detalle del libro
   verDetalles(libro: Libro): void {
     const dialogRef = this.dialog.open(LibroDetalleModalComponent, {
       width: '500px',
       data: libro,
-      panelClass: 'detalle-libro-modal',
+      panelClass: 'detalle-libro-modal'
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {
       if (resultado === true) {
-        this.actualizarLibros(); // ahora lo creamos
+        this.actualizarLibros();
       }
     });
   }
 
-  actualizarLibros(): void {
+  // Actualiza la lista de libros tras reserva/cambio
+  private actualizarLibros(): void {
     this.libroService.obtenerLibros().subscribe(data => {
       this.libros = data;
+      this.filtrarPorGenero(); // mantener el filtro actual aplicado
     });
   }
-
 }
-
-
-

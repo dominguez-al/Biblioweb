@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login-modal',
@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-modal.component.scss']
 })
 export class LoginModalComponent {
-  email = '';
-  password = '';
-  error = ''; // ✅ Añade esta línea
+  email: string = '';
+  password: string = '';
+  error: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<LoginModalComponent>,
@@ -21,8 +21,8 @@ export class LoginModalComponent {
     private router: Router
   ) {}
 
-
-  onSubmit() {
+  // Envía los datos del formulario
+  onSubmit(): void {
     if (!this.email || !this.password) {
       this.error = 'Debes completar todos los campos.';
       return;
@@ -33,16 +33,16 @@ export class LoginModalComponent {
         localStorage.setItem('token', res.token);
         this.error = '';
         this.dialogRef.close();
-        this.router.navigate(['/usuario-logueado']); // ✅ redirige a tu sesión
+        this.router.navigate(['/usuario-logueado']);
       },
       error: (err) => {
         this.error = err.error || 'Credenciales inválidas';
       }
     });
-
   }
 
-  cerrar() {
+  // Cierra el modal sin hacer login
+  cerrar(): void {
     this.dialogRef.close();
   }
 }

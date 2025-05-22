@@ -4,25 +4,28 @@
   <h2>Gestión de Usuarios</h2>
 </div>
 
-<!-- Botón para retroceder-->
+<!-- Botón para retroceder -->
 <button class="btn-volver" (click)="volverAtras()">
   <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
 </button>
 
-
-<!-- Botón para mostrar el formulario -->
+<!-- Botón para mostrar formulario -->
 <div class="center-button" *ngIf="!formVisible">
   <button class="crear-usuario-btn" (click)="mostrarFormularioCrear()">
-    <lucide-icon name="user-plus"></lucide-icon>Crear Usuario
+    <lucide-icon name="user-plus"></lucide-icon> Crear Usuario
   </button>
 </div>
 
-<!-- Formulario de creación / edición -->
+<!-- Subtítulo y Formulario de creación/edición -->
 <div class="subtitulo" *ngIf="formVisible">
   {{ modoEdicion ? 'Editar Usuario' : 'Agregar Nuevo Usuario' }}
 </div>
 
-<form *ngIf="formVisible" (ngSubmit)="modoEdicion ? actualizarUsuario() : crearUsuario()" #formUsuario="ngForm">
+<form
+  *ngIf="formVisible"
+  (ngSubmit)="modoEdicion ? actualizarUsuario() : crearUsuario()"
+  #formUsuario="ngForm"
+>
   <!-- Nombre -->
   <div class="form-group">
     <input
@@ -77,7 +80,7 @@
     </div>
   </div>
 
-  <!-- Contraseña (solo al crear) -->
+  <!-- Contraseña (solo en creación) -->
   <div class="form-group" *ngIf="!modoEdicion">
     <input
       type="password"
@@ -97,7 +100,7 @@
     </div>
   </div>
 
-  <!-- Botones -->
+  <!-- Botones del formulario -->
   <div class="botones-formulario">
     <button type="submit">
       {{ modoEdicion ? 'Actualizar' : 'Agregar Usuario' }}

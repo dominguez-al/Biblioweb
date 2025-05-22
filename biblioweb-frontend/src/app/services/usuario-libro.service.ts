@@ -18,6 +18,7 @@ export class UsuarioLibroService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  // Retorna los headers con token para autenticación
   private getAuthHeaders(): HttpHeaders {
     const token = this.tokenService.getToken();
     return new HttpHeaders({
@@ -25,6 +26,7 @@ export class UsuarioLibroService {
     });
   }
 
+  // Obtiene los libros más populares según cantidad de reservas
   obtenerLibrosMasPopulares(): Observable<LibroPopular[]> {
     return this.http.get<LibroPopular[]>(`${this.apiUrl}/populares`, {
       headers: this.getAuthHeaders()

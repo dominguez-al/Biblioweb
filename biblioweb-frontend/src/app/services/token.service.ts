@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 
 interface UsuarioToken {
-  email: string;         // Email del usuario
+  sub: string;         // Email del usuario
   role: string;        // 'USER' o 'ADMIN'
   nombre: string;      // Nombre del usuario
   idUsuario: number;   // ID del usuario
@@ -54,7 +54,7 @@ export class TokenService {
 
   // Devuelve el email
   getEmail(): string | null {
-    return this.getUsuarioDesdeToken()?.email || null;
+    return this.getUsuarioDesdeToken()?.sub || null;
   }
 
   // Comprueba si hay sesión iniciada

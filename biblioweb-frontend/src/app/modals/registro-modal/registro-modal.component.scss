@@ -14,9 +14,6 @@
   background-color: #f9f9f9;
   padding: 2rem;
   border-radius: 12px;
-  width: 100%;
-  max-width: 380px;
-  margin: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   .campo {
@@ -32,7 +29,7 @@
     }
 
     input {
-      width: 100%;
+      width: 95%;
       padding: 0.5rem 0.75rem;
       font-size: 1rem;
       border-radius: 6px;
@@ -147,5 +144,35 @@
 
 .error {
   color: #c62828;
+}
 
+
+/*         RESPONSIVE         */
+
+
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 1.5rem;
+  }
+
+  .formulario {
+    padding: 1.5rem 1rem;
+    width: 90%;
+  }
+
+  .formulario .campo label {
+    font-size: 0.95rem;
+  }
+
+  .formulario .campo .error {
+    font-size: 0.9rem;
+  }
+
+  .mensaje {
+    width: 90%;
+  }
+
+  .formulario .acciones {
+    flex-wrap: wrap;
+  }
 }

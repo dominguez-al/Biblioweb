@@ -1,18 +1,55 @@
 <!-- Opciones para usuarios normales -->
 <div *ngIf="esUsuario()" class="bloque-usuario">
- <p class="titulo-usuario"> <lucide-icon name="shield"></lucide-icon>Hola, {{ tokenService.getNombre() }}</p>
+  <!-- Saludo personalizado -->
+  <p class="titulo-usuario">
+    <lucide-icon name="shield"></lucide-icon>
+    Hola, {{ tokenService.getNombre() }}
+  </p>
+
+  <!-- Menú de usuario -->
   <ul>
-    <li><a routerLink="/mis-reservas"><lucide-icon name="calendar-days"></lucide-icon>Ver mis reservas</a></li>
-    <li><a routerLink="/resenar-libro"><lucide-icon name="pen-tool"></lucide-icon>Escribir una reseña</a></li>
+    <li>
+      <a routerLink="/mis-reservas">
+        <lucide-icon name="calendar-days"></lucide-icon>
+        Ver mis reservas
+      </a>
+    </li>
+    <li>
+      <a routerLink="/resenar-libro">
+        <lucide-icon name="pen-tool"></lucide-icon>
+        Escribir una reseña
+      </a>
+    </li>
   </ul>
 </div>
 
 <!-- Opciones para administradores -->
 <div *ngIf="esAdmin()" class="bloque-admin">
-  <p class="titulo-admin"> <lucide-icon name="shield"></lucide-icon>Eres <strong>Administrador</strong></p>
+  <!-- Identificación de rol -->
+  <p class="titulo-admin">
+    <lucide-icon name="shield"></lucide-icon>
+    Eres <strong>Administrador</strong>
+  </p>
+
+  <!-- Menú de administración -->
   <ul>
-    <li><a routerLink="/admin-libros"><lucide-icon name="folder-kanban"></lucide-icon>Gestionar libros</a></li>
-    <li><a routerLink="/admin-aulas"><lucide-icon name="table"></lucide-icon>Gestionar aulas</a></li>
-    <li><a routerLink="/admin-usuarios"><lucide-icon name="user-search"></lucide-icon>Gestionar usuarios</a></li>
+    <li>
+      <a routerLink="/admin-libros">
+        <lucide-icon name="folder-kanban"></lucide-icon>
+        Gestionar libros
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin-aulas">
+        <lucide-icon name="table"></lucide-icon>
+        Gestionar aulas
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin-usuarios">
+        <lucide-icon name="user-search"></lucide-icon>
+        Gestionar usuarios
+      </a>
+    </li>
   </ul>
 </div>

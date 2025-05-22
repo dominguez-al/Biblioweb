@@ -12,11 +12,15 @@ import Swal from 'sweetalert2';
 })
 export class ListarAulasComponent implements OnInit {
   aulas: any[] = [];
-  idUsuario!: number;
   fechasSeleccionadas: { [idAula: number]: string } = {};
   fechasOcupadas: { [idAula: number]: string[] } = {};
+
   hoy: string = new Date().toISOString().split('T')[0];
-  maxFecha: string = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0];
+  maxFecha: string = new Date(new Date().setMonth(new Date().getMonth() + 1))
+    .toISOString()
+    .split('T')[0];
+
+  idUsuario!: number;
 
   constructor(
     private aulaService: AulaService,
@@ -28,61 +32,58 @@ export class ListarAulasComponent implements OnInit {
     const payload = this.tokenService.getUsuarioDesdeToken();
     if (payload?.idUsuario) {
       this.idUsuario = payload.idUsuario;
-      //console.log("ID de usuario:", this.idUsuario);
-    } else {
-      //console.error(" No se pudo obtener el ID del usuario del token");
     }
 
     this.aulaService.obtenerAulas().subscribe(aulas => {
       this.aulas = aulas;
-      //console.log(' Aulas cargadas:', this.aulas);
 
+      // Cargar fechas ocupadas para cada aula
       this.aulas.forEach(aula => {
         this.cargarFechasOcupadas(aula.id);
       });
     });
   }
 
-  getClaseEstado(estado: string): string {
-    return (estado || '').trim().toLowerCase();
-  }
-
+  // Verifica si una fecha está ocupada para el aula
   estaOcupada(idAula: number, fecha: string): boolean {
     return this.fechasOcupadas[idAula]?.includes(fecha);
   }
 
-  cargarFechasOcupadas(idAula: number) {
+  // Obtiene fechas ocupadas desde el backend
+  private cargarFechasOcupadas(idAula: number): void {
     this.reservaAulaService.obtenerFechasOcupadas(idAula).subscribe(fechas => {
       this.fechasOcupadas[idAula] = fechas.map(f => f.toString());
     });
   }
 
+  // Guarda la fecha seleccionada por aula
   onFechaSeleccionada(fecha: string, idAula: number): void {
     this.fechasSeleccionadas[idAula] = fecha;
   }
 
+  // Desplaza la vista para que el input quede visible al enfocar
+  scrollIntoViewOnFocus(event: FocusEvent): void {
+    setTimeout(() => {
+      const element = event.target as HTMLElement;
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+      window.scrollBy(0, -50);
+    }, 150);
+  }
 
-scrollIntoViewOnFocus(event: FocusEvent) {
-  setTimeout(() => {
-    const element = event.target as HTMLElement;
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center' // mejor que 'start'
-    });
-    window.scrollBy(0, -50); // ajusta aún más para que se vea el calendario
-  }, 150);
-}
-
-
-  reservarAula(idAula: number) {
+  // Reserva el aula para la fecha seleccionada
+  reservarAula(idAula: number): void {
     const fecha = this.fechasSeleccionadas[idAula];
+
     if (!fecha) {
       Swal.fire('Fecha no seleccionada', 'Por favor, selecciona una fecha antes de reservar.', 'warning');
       return;
     }
 
     if (this.estaOcupada(idAula, fecha)) {
-      Swal.fire('Fecha ocupada', '⚠️ Esta fecha ya está ocupada para el aula seleccionada.', 'warning');
+      Swal.fire('Fecha ocupada', 'Esta fecha ya está ocupada para el aula seleccionada.', 'warning');
       return;
     }
 
@@ -92,31 +93,28 @@ scrollIntoViewOnFocus(event: FocusEvent) {
       fechaReservaAula: fecha
     };
 
-    console.log("📦 Payload enviado:", payload);
-
     Swal.fire({
       title: 'Reservando aula...',
       allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
+      didOpen: () => Swal.showLoading()
     });
 
     this.reservaAulaService.crearReserva(payload).subscribe({
-      next: (res: any) => {
-        console.log("✅ Reserva creada", res);
+      next: () => {
         const fechaFormateada = new Intl.DateTimeFormat('es-ES').format(new Date(fecha));
-        Swal.fire('¡Reservada!', `✅ Aula reservada para el día ${fechaFormateada}`, 'success');
+        Swal.fire('¡Reservada!', `Aula reservada para el día ${fechaFormateada}`, 'success');
 
+        // Recargar fechas ocupadas
         this.cargarFechasOcupadas(idAula);
 
+        // Limpiar campo después de reservar
         setTimeout(() => {
           this.fechasSeleccionadas[idAula] = '';
         }, 100);
       },
-      error: (err: any) => {
-        console.error("❌ Error al reservar aula:", err);
-        Swal.fire('Error', '❌ No se pudo completar la reserva. Intenta con otra fecha.', 'error');
+      error: (err) => {
+        console.error('Error al reservar aula:', err);
+        Swal.fire('Error', 'No se pudo completar la reserva. Intenta con otra fecha.', 'error');
       }
     });
   }

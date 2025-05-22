@@ -1,12 +1,27 @@
 <header class="header">
+  <!-- Navegación principal -->
   <div class="left">
-    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">
-        <lucide-icon name="house"></lucide-icon>Inicio</a>
-    <a routerLink="/catalogo" routerLinkActive="activo"><lucide-icon name="library-big"></lucide-icon>Catálogo</a>
-    <a routerLink="/eventos" routerLinkActive="activo"><lucide-icon name="puzzle"></lucide-icon>Eventos</a>
-    <a routerLink="/aulas" routerLinkActive="activo"><lucide-icon name="calculator"></lucide-icon>Aulas</a>
+    <a
+      routerLink="/"
+      routerLinkActive="activo"
+      [routerLinkActiveOptions]="{ exact: true }">
+      <lucide-icon name="house"></lucide-icon>Inicio
+    </a>
+
+    <a routerLink="/catalogo" routerLinkActive="activo">
+      <lucide-icon name="library-big"></lucide-icon>Catálogo
+    </a>
+
+    <a routerLink="/eventos" routerLinkActive="activo">
+      <lucide-icon name="puzzle"></lucide-icon>Eventos
+    </a>
+
+    <a routerLink="/aulas" routerLinkActive="activo">
+      <lucide-icon name="calculator"></lucide-icon>Aulas
+    </a>
   </div>
 
+  <!-- Controles de usuario -->
   <div class="right">
     <!-- Solo si NO está logueado -->
     <ng-container *ngIf="!tokenService.isLoggedIn(); else logueado">
@@ -14,19 +29,29 @@
       <a class="btn" (click)="abrirRegistro()">Registrarse</a>
     </ng-container>
 
-    <!-- Ícono perfil (solo si logueado) -->
+    <!-- Si está logueado -->
     <ng-template #logueado>
-      <div class="avatar-wrapper" [routerLinkActive]="['activo']" [routerLinkActiveOptions]="{ exact: true }">
-        <button class="avatar-link" (click)="toggleMenu()" title="Mi perfil">
-          <lucide-icon name="circle-user-round" ></lucide-icon>
+      <div
+        class="avatar-wrapper"
+        [routerLinkActive]="['activo']"
+        [routerLinkActiveOptions]="{ exact: true }">
+
+        <button
+          class="avatar-link"
+          (click)="toggleMenu()"
+          title="Mi perfil">
+          <lucide-icon name="circle-user-round"></lucide-icon>
         </button>
 
         <div class="menu" *ngIf="menuAbierto">
-          <a routerLink="/usuario-logueado" (click)="toggleMenu()"><lucide-icon name="user"></lucide-icon> Mi perfil</a>
-          <button (click)="cerrarSesion()"><lucide-icon name="log-out"></lucide-icon>Cerrar sesión</button>
+          <a routerLink="/usuario-logueado" (click)="toggleMenu()">
+            <lucide-icon name="user"></lucide-icon>Mi perfil
+          </a>
+          <button (click)="cerrarSesion()">
+            <lucide-icon name="log-out"></lucide-icon>Cerrar sesión
+          </button>
         </div>
       </div>
-
     </ng-template>
   </div>
 </header>

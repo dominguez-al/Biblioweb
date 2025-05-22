@@ -1,14 +1,20 @@
+<!-- Título principal -->
 <div class="titulo-seccion">
-  <lucide-icon name="folder-kanban"></lucide-icon><h2>Gestión de Libros</h2>
+  <lucide-icon name="folder-kanban"></lucide-icon>
+  <h2>Gestión de Libros</h2>
 </div>
 
-<!-- Botón para retroceder-->
+<!-- Botón para volver -->
 <button class="btn-volver" (click)="volverAtras()">
   <lucide-icon name="circle-arrow-left"></lucide-icon> Volver
 </button>
 
-<!--  Formulario para agregar nuevos libros -->
-<div class="subtitulo"><lucide-icon name="book-plus"></lucide-icon>Agregar Nuevo Libro</div>
+<!-- Formulario: Agregar nuevo libro -->
+<div class="subtitulo">
+  <lucide-icon name="book-plus"></lucide-icon>
+  Agregar Nuevo Libro
+</div>
+
 <form (ngSubmit)="crearLibro()" #formLibro="ngForm">
   <input type="text" name="titulo" [(ngModel)]="nuevoLibro.titulo" placeholder="Título" required />
   <input type="text" name="autor" [(ngModel)]="nuevoLibro.autor" placeholder="Autor" required />
@@ -23,9 +29,12 @@
   <button type="submit" [disabled]="formLibro.invalid">Agregar Libro</button>
 </form>
 
+<!-- Tabla: Todos los libros -->
+<div class="subtitulo">
+  <lucide-icon name="book-key"></lucide-icon>
+  Todos los Libros
+</div>
 
-<!--  Tabla de todos los libros -->
-<div class="subtitulo"><lucide-icon name="book-key"></lucide-icon>Todos los Libros</div>
 <table>
   <thead>
     <tr>
@@ -39,27 +48,32 @@
       <th>Acciones</th>
     </tr>
   </thead>
-<tbody>
-  <tr *ngFor="let libro of libros">
-    <td data-label="Portada"><img [src]="libro.imagen" alt="Portada" width="60" /></td>
-    <td data-label="Título">{{ libro.titulo }}</td>
-    <td data-label="Autor">{{ libro.autor }}</td>
-    <td data-label="Género">{{ libro.genero }}</td>
-    <td data-label="Estado">{{ libro.estado }}</td>
-    <td data-label="Fecha Alta">{{ libro.fechaAltaLibro | date: 'dd/MM/yyyy' }}</td>
-    <td data-label="Reservado por">{{ libro.reservadoPor || '—' }}</td>
-    <td data-label="Acciones">
-      <button class="eliminar-btn" (click)="eliminarLibro(libro.idLibro!)">Eliminar</button>
-    </td>
-  </tr>
-</tbody>
-
+  <tbody>
+    <tr *ngFor="let libro of libros">
+      <td data-label="Portada">
+        <img [src]="libro.imagen" alt="Portada" width="60" />
+      </td>
+      <td data-label="Título">{{ libro.titulo }}</td>
+      <td data-label="Autor">{{ libro.autor }}</td>
+      <td data-label="Género">{{ libro.genero }}</td>
+      <td data-label="Estado">{{ libro.estado }}</td>
+      <td data-label="Fecha Alta">{{ libro.fechaAltaLibro | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="Reservado por">{{ libro.reservadoPor || '—' }}</td>
+      <td data-label="Acciones">
+        <button class="eliminar-btn" (click)="eliminarLibro(libro.idLibro!)">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
+<!-- Tabla: Reservas activas -->
+<div class="subtitulo">
+  <lucide-icon name="book-open-text"></lucide-icon>
+  Reservas Activas
+</div>
 
-
-<!-- 🟢 Tabla de reservas activas -->
-<div class="subtitulo"><lucide-icon name="book-open-text"></lucide-icon>Reservas activas</div>
 <table>
   <thead>
     <tr>
@@ -67,23 +81,24 @@
       <th>Título</th>
       <th>Fecha Reserva</th>
       <th>Fecha Devolución</th>
-      <th>Id Usuario</th>
+      <th>ID Usuario</th>
       <th>Acciones</th>
     </tr>
   </thead>
-<tbody>
-  <tr *ngFor="let reserva of reservas">
-    <td data-label="Portada"><img [src]="reserva.imagen" alt="Portada" width="60" /></td>
-    <td data-label="Título">{{ reserva.titulo }}</td>
-    <td data-label="Fecha Reserva">{{ reserva.fechaReservaLibro | date: 'dd/MM/yyyy' }}</td>
-    <td data-label="Fecha Devolución">{{ reserva.fechaDevolucion | date: 'dd/MM/yyyy' }}</td>
-    <td data-label="ID Usuario">{{ reserva.idUsuario }}</td>
-    <td data-label="Acciones">
-      <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">Cancelar Reserva</button>
-    </td>
-  </tr>
-</tbody>
-
+  <tbody>
+    <tr *ngFor="let reserva of reservas">
+      <td data-label="Portada">
+        <img [src]="reserva.imagen" alt="Portada" width="60" />
+      </td>
+      <td data-label="Título">{{ reserva.titulo }}</td>
+      <td data-label="Fecha Reserva">{{ reserva.fechaReservaLibro | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="Fecha Devolución">{{ reserva.fechaDevolucion | date: 'dd/MM/yyyy' }}</td>
+      <td data-label="ID Usuario">{{ reserva.idUsuario }}</td>
+      <td data-label="Acciones">
+        <button class="cancelar-btn" (click)="cancelarReserva(reserva.id)">
+          Cancelar Reserva
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>
-
-

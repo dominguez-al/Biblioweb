@@ -16,10 +16,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Inicia sesión con email y contraseña, devuelve un token JWT
   login(email: string, password: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.baseUrl}/login`, { email, password });
   }
 
+  // Registra un nuevo usuario en el sistema
   registrar(usuario: UsuarioRegistro): Observable<string> {
     return this.http.post(`${this.baseUrl}/registro`, usuario, {
       responseType: 'text'

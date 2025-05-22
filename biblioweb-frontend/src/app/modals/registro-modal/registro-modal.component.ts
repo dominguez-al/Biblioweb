@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService, UsuarioRegistro } from '../../services/auth.service';
-
 
 @Component({
   selector: 'app-registro-modal',
@@ -10,23 +9,26 @@ import { AuthService, UsuarioRegistro } from '../../services/auth.service';
   styleUrls: ['./registro-modal.component.scss']
 })
 export class RegistroModalComponent {
-  nombre = '';
-  email = '';
-  password = '';
-  confirmarPassword = '';
-  mensaje = '';
-  error = '';
+  // Campos del formulario
+  nombre: string = '';
+  email: string = '';
+  password: string = '';
+  confirmarPassword: string = '';
 
-  verPassword = false;
-  emailValido = false;
-  passwordValida = false;
+  // Estado UI
+  mensaje: string = '';
+  error: string = '';
+  verPassword: boolean = false;
+  emailValido: boolean = false;
+  passwordValida: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<RegistroModalComponent>,
     private authService: AuthService
   ) {}
 
-  onSubmit() {
+  // Validación y envío del formulario
+  onSubmit(): void {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
 
@@ -64,16 +66,19 @@ export class RegistroModalComponent {
     });
   }
 
-  validarEmail() {
+  // Valida formato de email
+  validarEmail(): void {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     this.emailValido = regex.test(this.email);
   }
 
-  validarPassword() {
+  // Valida complejidad de contraseña
+  validarPassword(): void {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s]).{8,}$/;
     this.passwordValida = regex.test(this.password);
   }
 
+  // Habilita el botón de registro si todo está correcto
   formularioValido(): boolean {
     return (
       this.nombre.trim().length > 0 &&
@@ -83,7 +88,8 @@ export class RegistroModalComponent {
     );
   }
 
-  cerrar() {
+  // Cierra el modal
+  cerrar(): void {
     this.dialogRef.close();
   }
 }

@@ -2,24 +2,52 @@
   <h2>Catálogo de Libros</h2>
 
   <!-- Filtro por género -->
-<div class="filtro-genero">
-  <select id="genero-select" [(ngModel)]="generoSeleccionado" (change)="filtrarPorGenero()">
-    <option value="">Géneros</option>
-    <option *ngFor="let genero of generosDisponibles" [value]="genero">{{ genero }}</option>
-  </select>
-</div>
+  <div class="filtro-genero">
+    <select
+      id="genero-select"
+      [(ngModel)]="generoSeleccionado"
+      (change)="filtrarPorGenero()"
+    >
+      <option value="">Géneros</option>
+      <option
+        *ngFor="let genero of generosDisponibles"
+        [value]="genero"
+      >
+        {{ genero }}
+      </option>
+    </select>
+  </div>
 
-<div class="libros-grid" [class.solo-un-libro]="librosFiltrados.length === 1">
-  <div class="libro-card" *ngFor="let libro of librosFiltrados" [ngClass]="libro.estado.toLowerCase()" (click)="verDetalles(libro)">
-    <img [src]="libro.imagen" [alt]="libro.titulo" class="libro-img" />
-    <h3>{{ libro.titulo }}</h3>
-    <p><strong>Autor:</strong> {{ libro.autor }}</p>
-    <p><strong>Género:</strong> {{ libro.genero }}</p>
-    <p>
-      <span class="estado-chip" [ngClass]="libro.estado.toLowerCase()">
-        {{ libro.estado }}
-      </span>
-    </p>
+  <!-- Grid de libros -->
+  <div
+    class="libros-grid"
+    [class.solo-un-libro]="librosFiltrados.length === 1"
+  >
+    <div
+      class="libro-card"
+      *ngFor="let libro of librosFiltrados"
+      [ngClass]="libro.estado.toLowerCase()"
+      (click)="verDetalles(libro)"
+    >
+      <img
+        [src]="libro.imagen"
+        [alt]="libro.titulo"
+        class="libro-img"
+      />
+
+      <h3>{{ libro.titulo }}</h3>
+      <p><strong>Autor:</strong> {{ libro.autor }}</p>
+      <p><strong>Género:</strong> {{ libro.genero }}</p>
+
+      <p>
+        <span
+          class="estado-chip"
+          [ngClass]="libro.estado.toLowerCase()"
+        >
+          {{ libro.estado }}
+        </span>
+      </p>
+    </div>
   </div>
 </div>
 

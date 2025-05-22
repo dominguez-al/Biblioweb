@@ -1,26 +1,39 @@
 <div class="modal-detalle-libro">
+  <!-- Título del libro -->
   <h2 class="titulo-libro">{{ libro.titulo }}</h2>
 
+  <!-- Contenido principal -->
   <div class="contenido">
-    <img [src]="libro.imagen" [alt]="libro.titulo" class="libro-img" />
+    <!-- Imagen del libro -->
+    <img
+      [src]="libro.imagen"
+      [alt]="libro.titulo"
+      class="libro-img"
+    />
 
+    <!-- Información textual -->
     <div class="info">
       <p><strong>Autor:</strong> {{ libro.autor }}</p>
       <p><strong>Género:</strong> {{ libro.genero }}</p>
+
+      <!-- Estado del libro con estilos condicionales -->
       <p>
-        <span *ngIf="libro.estado" [ngClass]="libro.estado.toLowerCase()" class="estado-chip">
+        <span
+          *ngIf="libro.estado"
+          [ngClass]="libro.estado.toLowerCase()"
+          class="estado-chip">
           {{ libro.estado }}
         </span>
       </p>
     </div>
   </div>
 
+  <!-- Acciones disponibles -->
   <div class="acciones">
     <button
       *ngIf="libro.estado === 'DISPONIBLE'"
       class="btn-reservar"
-      (click)="reservarLibro()"
-    >
+      (click)="reservarLibro()">
       Reservar
     </button>
   </div>

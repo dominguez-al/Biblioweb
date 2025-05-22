@@ -11,6 +11,7 @@ export class ResenarService {
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
+  // Crear una nueva reseña de libro
   crearResena(libroId: number, email: string, comentario: string, puntuacion: number): Observable<any> {
     const token = this.tokenService.getToken();
     const headers = new HttpHeaders({
@@ -27,8 +28,8 @@ export class ResenarService {
     return this.http.post(`${this.apiUrl}/guardarResena`, body, { headers });
   }
 
+  // Obtener todas las reseñas del sistema
   obtenerTodasResenas(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.apiUrl}/todas`);
+    return this.http.get<any[]>(`${this.apiUrl}/todas`);
   }
-
 }

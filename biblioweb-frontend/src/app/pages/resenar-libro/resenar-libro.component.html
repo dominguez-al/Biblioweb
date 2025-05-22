@@ -2,32 +2,59 @@
   <h2>Reseñas</h2>
 </div>
 
-<!-- Botón para retroceder-->
+<!-- Botón para retroceder -->
 <button class="btn-volver" (click)="volverAtras()">
-Volver
+  <lucide-icon name="circle-arrow-left"></lucide-icon>
+  Volver
 </button>
 
+<!-- Mensaje opcional -->
 <p *ngIf="mensaje">{{ mensaje }}</p>
 
+<!-- Formulario de reseña -->
 <form (submit)="enviarResena(); $event.preventDefault()">
 
-  <label>Libro:</label>
-  <select [(ngModel)]="libroId" name="libroId" required>
+  <!-- Selección de libro -->
+  <label for="libroId">Libro:</label>
+  <select
+    id="libroId"
+    [(ngModel)]="libroId"
+    name="libroId"
+    required
+  >
     <option [value]="0" disabled>Seleccione un libro</option>
-    <option *ngFor="let libro of libros" [value]="libro.idLibro">
+    <option
+      *ngFor="let libro of libros"
+      [value]="libro.idLibro"
+    >
       {{ libro.titulo }}
     </option>
   </select>
 
-  <label>Comentario:</label>
-  <textarea [(ngModel)]="comentario" name="comentario" required></textarea>
+  <!-- Comentario -->
+  <label for="comentario">Comentario:</label>
+  <textarea
+    id="comentario"
+    [(ngModel)]="comentario"
+    name="comentario"
+    required
+  ></textarea>
 
-  <label>Puntuación:</label>
-  <input type="number" [(ngModel)]="puntuacion" name="puntuacion" min="1" max="5" required />
+  <!-- Puntuación -->
+  <label for="puntuacion">Puntuación:</label>
+  <input
+    id="puntuacion"
+    type="number"
+    [(ngModel)]="puntuacion"
+    name="puntuacion"
+    min="1"
+    max="5"
+    required
+  />
 
+  <!-- Botón de envío -->
   <button type="submit">Enviar reseña</button>
 </form>
 
-<!-- Espaciador al final -->
+<!-- Espaciador -->
 <div class="espaciador"></div>
-
