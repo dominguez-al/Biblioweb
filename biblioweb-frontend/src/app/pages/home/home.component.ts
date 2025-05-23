@@ -68,12 +68,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  cargarResenas(): void {
-    this.resenarService.obtenerTodasResenas().subscribe({
-      next: (data) => this.resenas = data,
-      error: () => console.error('Error al cargar reseñas')
-    });
-  }
+ cargarResenas(): void {
+  this.resenarService.obtenerTodasResenas().subscribe({
+    next: (data) => {
+      this.resenas = data;
+      console.log('Reseñas cargadas:', this.resenas); // <- AÑADE ESTO para depurar
+    },
+    error: () => console.error('Error al cargar reseñas')
+  });
+}
+
 
   // ---  BÚSQUEDA Y SUGERENCIAS ---
 

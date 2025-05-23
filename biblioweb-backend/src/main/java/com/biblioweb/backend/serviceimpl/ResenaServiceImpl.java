@@ -1,7 +1,9 @@
 package com.biblioweb.backend.serviceimpl;
 
 import com.biblioweb.backend.entity.Resena;
+import com.biblioweb.backend.entity.Usuario;
 import com.biblioweb.backend.repository.ResenaRepository;
+import com.biblioweb.backend.repository.UsuarioRepository;
 import com.biblioweb.backend.service.ResenaService;
 import com.biblioweb.backend.vo.ResenaVO;
 import com.biblioweb.backend.mapper.ResenaMapper;
@@ -26,6 +28,10 @@ public class ResenaServiceImpl implements ResenaService {
 
     @Autowired
     private LibroRepository libroRepository; // Necesario para vincular una reseña con un libro
+    
+    @Autowired
+    private UsuarioRepository usuarioRepository; // Acceso a la tabla usuario
+
 
     /**
      * Obtiene todas las reseñas asociadas a un libro específico.
@@ -48,10 +54,25 @@ public class ResenaServiceImpl implements ResenaService {
      */
     @Override
     public List<ResenaVO> obtenerTodas() {
-        return resenaRepository.findAllByOrderByFechaDesc().stream()
-                .map(ResenaMapper::toVO)
-                .toList();
+        List<Resena> resenas = resenaRepository.findAllByOrderByFechaDesc();
+
+        return resenas.stream()
+            .map(resena -> {
+                Usuario usuario = usuarioRepository.findByEmail(resena.getUsuarioId());
+                String nombre = (usuario != null) ? usuario.getNombre() : resena.getUsuarioId();
+                return new ResenaVO(
+                    resena.getId(),
+                    resena.getComentario(),
+                    resena.getPuntuacion(),
+                    resena.getFecha(),
+                    nombre, // se envía como usuarioId
+                    resena.getLibro().getIdLibro(),
+                    resena.getLibro().getTitulo()
+                );
+            })
+            .toList();
     }
+
 
     /**
      * Guarda una nueva reseña vinculada a un libro existente.

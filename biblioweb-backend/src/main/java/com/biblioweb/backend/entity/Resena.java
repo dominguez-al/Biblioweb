@@ -17,7 +17,7 @@ public class Resena {
 
     private LocalDateTime fecha; // Fecha y hora en que se publicó la reseña
 
-    @JoinColumn(name = "usuario_id")
+    @Column(name = "usuario_id")
     private String usuarioId; // Identificador del usuario que escribió la reseña (puede ser un email, UUID, etc.)
 
     // Relación muchos-a-uno: muchas reseñas pueden estar asociadas a un solo libro
